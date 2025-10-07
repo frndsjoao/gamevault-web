@@ -28,7 +28,7 @@ export default function Login() {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Email
+              Emaillllll
             </label>
             <input
               id="email"
