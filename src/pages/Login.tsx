@@ -16,12 +16,15 @@ export default function Login() {
 
   return (
     <BaseView>
-      <Card>
-        <h2>
-          Gamevault
+      <Card className='max-w-md'>
+        <h2 className='mb-2 text-xl font-semibold text-text_primary'>
+          Login to your account
         </h2>
+        <p className='mb-6 text-sm font-normal text-text_secondary'>
+          Enter your email below to login to your account
+        </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <Input
             // required
             type='email'
@@ -30,21 +33,23 @@ export default function Login() {
             value={email}
             icon="user"
           />
-          <Input
-            // required
-            type={showPassword ? "text" : 'password'}
-            label='Password'
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            icon={showPassword ? "eye" : "eyeOff"}
-          />
-          <Checkbox
-            checked={showPassword}
-            onChange={(e) => setShowPassword(e.target.checked)}
-            label={`${showPassword ? "Ocultar" : "Mostrar"} senha`}
-          />
+          <div>
+            <Input
+              // required
+              type={showPassword ? "text" : 'password'}
+              label='Password'
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              icon={showPassword ? "eye" : "eyeOff"}
+            />
+            <Checkbox
+              checked={showPassword}
+              onChange={(e) => setShowPassword(e.target.checked)}
+              label={`${showPassword ? "Hide" : "Show"} your password`}
+            />
+          </div>
 
-          <div className='flex flex-col items-center border-t-[1px] border-t-gray-700 pt-4'>
+          <div className='flex flex-col items-center border-t-[1px] border-t-text_secondary pt-4'>
             <Button label='Login' onClick={() => navigate("/dashboard")} />
             <Link label='Criar conta' />
           </div>

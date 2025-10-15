@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { IconName, icons } from "../Icon";
-import { baseStyles, ButtonVariants, variants } from "./styles";
+import { baseStyles, ButtonVariants, textVariants, variants } from "./styles";
 import { LuLoaderCircle } from "react-icons/lu";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,14 +22,14 @@ export default function Button({ variant = "primary", isLoading, ...rest }: Butt
     >
       <div className="flex items-center gap-2">
         {IconComponent && !isLoading && (
-          <IconComponent size={20} className="shrink-0 text-text_input" />
+          <IconComponent size={20} className="text-text_input shrink-0" />
         )}
         {isLoading && (
           <LuLoaderCircle size={20} className="animate-spin text-white" />
         )}
 
         {rest.label && (
-          <label className="text-md font-semibold text-text_primary hover:cursor-pointer">
+          <label className={`${textVariants[variant]} text-sm font-semibold hover:cursor-pointer`}>
             {rest.label}
           </label>
         )}

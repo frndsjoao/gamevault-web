@@ -7,7 +7,6 @@
   :root {
     --bg-main: theme('colors.bg_main');
     --bg-card: theme('colors.bg_card');
-    --bg-hover: theme('colors.bg_hover');
   }
 
   body {

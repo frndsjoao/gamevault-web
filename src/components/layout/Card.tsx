@@ -1,9 +1,12 @@
 import React from 'react'
 
-export default function Card({ children }: { children: React.ReactNode }) {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+
+export default function Card(props: CardProps) {
   return (
-    <div className="mx-auto max-w-lg rounded-lg bg-bg_card p-10 shadow-md">
-      {children}
+    <div className={`${props.className} mx-auto max-w-lg rounded-2xl bg-bg_card p-8 shadow-md border border-border`}>
+      {props.children}
     </div>
   )
 }
