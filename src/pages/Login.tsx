@@ -1,8 +1,10 @@
 import { useState, FormEvent } from 'react';
 import { BaseView, Button, Card, Checkbox, Input } from '../components';
 import Link from '../components/common/Link';
+import { useAppNavigate } from '../hooks/useNavigation';
 
 export default function Login() {
+  const navigate = useAppNavigate()
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false)
@@ -21,7 +23,7 @@ export default function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            required
+            // required
             type='email'
             label='E-mail'
             onChange={(e) => setEmail(e.target.value)}
@@ -29,7 +31,7 @@ export default function Login() {
             icon="user"
           />
           <Input
-            required
+            // required
             type={showPassword ? "text" : 'password'}
             label='Password'
             onChange={(e) => setPassword(e.target.value)}
@@ -43,7 +45,7 @@ export default function Login() {
           />
 
           <div className='flex flex-col items-center border-t-[1px] border-t-gray-700 pt-4'>
-            <Button label='Login' />
+            <Button label='Login' onClick={() => navigate("/dashboard")} />
             <Link label='Criar conta' />
           </div>
         </form>
