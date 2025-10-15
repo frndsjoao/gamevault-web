@@ -1,11 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+import colors from "./src/styles/colors"
+
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
-    extend: {},
+    extend: { colors: colors },
   },
   plugins: [],
 }
