@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
-import { IconName, icons } from "../Icon";
+import Icon, { IconName } from "../Icon";
 import { baseStyles, ButtonVariants, textVariants, variants } from "./styles";
 import { LuLoaderCircle } from "react-icons/lu";
 
@@ -12,8 +12,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 
 export default function Button({ variant = "primary", isLoading, ...rest }: ButtonProps) {
-  const IconComponent = rest.icon ? icons[rest.icon] : null;
-
   return (
     <button
       {...rest}
@@ -21,9 +19,7 @@ export default function Button({ variant = "primary", isLoading, ...rest }: Butt
       className={`${baseStyles} ${variants[variant]} ${rest.className}`}
     >
       <div className="flex items-center gap-2">
-        {IconComponent && !isLoading && (
-          <IconComponent size={20} className="text-text_input shrink-0" />
-        )}
+        {rest.icon && !isLoading && (<Icon name={rest.icon} />)}
         {isLoading && (
           <LuLoaderCircle size={20} className="animate-spin text-white" />
         )}

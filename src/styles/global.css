@@ -5,13 +5,13 @@
 
 @layer base {
   :root {
-    --bg-main: theme('colors.bg_main');
-    --bg-card: theme('colors.bg_card');
+    --bg-main: theme('colors.bg-darkest');
+    --bg-card: theme('colors.bg-dark');
   }
 
   body {
-    background-color: theme('colors.bg_main');
-    color: theme('colors.text_primary');
+    background-color: theme('colors.bg-darkest');
+    color: theme('colors.text-light');
     font-family: "Nunito"
   }
 }

@@ -12,14 +12,27 @@ export default {
     900: '#165a6f',
     950: '#083a4b',
   },
-  bg_main: '#0a0a0a',
-  bg_card: '#171717',
-  btn_primary: '#e5e5e5',
-  btn_primary_hover: '#d4d4d4',
-  btn_secondary: '#212121',
-  text_primary: '#f9fafb',
-  text_secondary: '#a1a1a1',
-  text_tertiary: '#171717',
+  gray: {
+    950: '#0a0a0a',  // bg_main (fundo principal mais escuro)
+    900: '#171717',  // bg-dark / text-dark (cards e containers)
+    800: '#212121',  // btn-dark (botões secundários)
+    700: '#2e2e2e',  // border (bordas)
+    600: '#525252',  // intermediário
+    500: '#737373',  // intermediário
+    400: '#a1a1a1',  // text-medium (texto secundário)
+    300: '#bfbfbf',  // intermediário
+    200: '#d4d4d4',  // btn-medium (hover de botões primários)
+    100: '#e5e5e5',  // btn-light (botões primários)
+    50: '#f9fafb',   // text-light (texto principal)
+  },
+  "bg-darkest": '#0a0a0a',
+  "bg-dark": '#171717',
+  "btn-light": '#e5e5e5',
+  "btn-medium": '#d4d4d4',
+  "btn-dark": '#212121',
+  "text-light": '#f9fafb',
+  "text-medium": '#a1a1a1',
+  "text-dark": '#171717',
   border: "#2e2e2e",
   accent: {
     success: {

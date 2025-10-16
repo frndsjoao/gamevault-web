@@ -9,13 +9,13 @@ export const baseStyles = `
     `;
 
 export const variants = {
-  primary: `bg-btn_primary hover:bg-btn_primary_hover ring-none`,
-  outline: `bg-transparent border-2 border-btn_primary hover:bg-btn_secondary focus:ring-primary-500`,
+  primary: `bg-btn-light hover:bg-btn-medium ring-none`,
+  outline: `bg-transparent border-2 border-btn-light hover:bg-btn-dark focus:ring-primary-500`,
   danger: `bg-accent-error-500 hover:bg-accent-error-600 active:bg-accent-error-700 focus:ring-accent-error-500`,
 };
 
 export const textVariants = {
-  primary: `text-text_tertiary`,
-  outline: `text-text_primary`,
-  danger: `text-text_primary`,
+  primary: `text-text-dark`,
+  outline: `text-text-light`,
+  danger: `text-text-light`,
 };

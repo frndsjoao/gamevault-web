@@ -2,13 +2,13 @@
 import colors from "./src/styles/colors"
 
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  darkMode: 'class',
-  theme: {
-    extend: { colors: colors },
-  },
-  plugins: [],
+	content: [
+		"./index.html",
+		"./src/**/*.{js,ts,jsx,tsx}",
+	],
+	darkMode: 'class',
+	theme: {
+		extend: { colors: colors },
+	},
+	plugins: [require("tailwindcss-animate")],
 }

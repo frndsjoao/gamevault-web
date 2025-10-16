@@ -17,10 +17,10 @@ export default function Login() {
   return (
     <BaseView>
       <Card className='max-w-md'>
-        <h2 className='mb-2 text-xl font-semibold text-text_primary'>
+        <h2 className='mb-2 text-xl font-semibold text-text-light'>
           Login to your account
         </h2>
-        <p className='mb-6 text-sm font-normal text-text_secondary'>
+        <p className='mb-6 text-sm font-normal text-text-medium'>
           Enter your email below to login to your account
         </p>
 
@@ -49,7 +49,7 @@ export default function Login() {
             />
           </div>
 
-          <div className='flex flex-col items-center border-t-[1px] border-t-text_secondary pt-4'>
+          <div className='flex flex-col items-center border-t-[1px] border-t-text-medium pt-4'>
             <Button label='Login' onClick={() => navigate("/dashboard")} />
             <Link label='Criar conta' />
           </div>

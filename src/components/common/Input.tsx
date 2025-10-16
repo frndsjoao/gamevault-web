@@ -1,5 +1,5 @@
 import { InputHTMLAttributes } from "react";
-import { IconName, icons } from "./Icon";
+import Icon, { IconName } from "./Icon";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -10,18 +10,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function Input(props: InputProps) {
-  const IconComponent = props.icon ? icons[props.icon] : null;
-
   return (
     <div className="my-1 flex flex-col">
-      <label className="mb-1 text-sm font-normal text-text_primary">
+      <label className="mb-1 text-sm font-normal text-text-light">
         {props.label}
       </label>
 
-      <div className="flex items-center gap-2 rounded-md border border-border bg-btn_secondary px-3 py-2 focus-within:ring-2 focus-within:ring-btn_primary">
-        {IconComponent && (
-          <IconComponent size={20} className="text-text_input shrink-0" />
-        )}
+      <div className="flex items-center gap-2 rounded-md border border-border bg-btn-dark px-3 py-2 focus-within:ring-2 focus-within:ring-btn-light">
+        {props.icon && (<Icon name={props.icon} className="text-text-light" />)}
 
         <input
           {...props}
