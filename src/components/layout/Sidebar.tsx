@@ -21,10 +21,10 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col py-6 p-4 h-screen fixed inset-y-0 left-0 z-50 w-72 bg-bg-dark transition-transform duration-300 lg:translate-x-0 lg:static`}>
+    <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed flex flex-col py-6 p-4 h-screen inset-y-0 left-0 z-50 w-72 bg-bg-dark transition-transform duration-300 lg:translate-x-0`}>
       <SidebarHeader setSidebarOpen={setSidebarOpen} />
 
-      <nav className="flex-1 space-y-2">
+      <nav className="flex-1 space-y-2 overflow-y-auto">
         {navItems.map((item, idx) => (
           <SidebarButton key={idx} item={item} />
         ))}

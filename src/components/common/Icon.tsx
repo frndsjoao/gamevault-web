@@ -4,7 +4,8 @@ import {
   Eye,
   EyeOff,
   X,
-  LogOut
+  LogOut,
+  Search
 } from "lucide-react";
 
 export const icons = {
@@ -13,7 +14,8 @@ export const icons = {
   eyeOff: EyeOff,
   ellipsis: EllipsisVertical,
   close: X,
-  logout: LogOut
+  logout: LogOut,
+  search: Search
 };
 
 interface IconProps {
