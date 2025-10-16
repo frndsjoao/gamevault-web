@@ -2,22 +2,43 @@ import { useState } from 'react'
 import Icon, { IconName } from '../common/Icon'
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
 
-interface SidebarNavOptionsProps {
+interface NavOptionsProps {
   icon: IconName;
   label: string;
   active?: boolean;
   onPress: () => void;
+  disabled?: boolean;
+  message?: string;
 }
+
+interface SidebarNavProps {
+  group: string;
+  nav: NavOptionsProps[]
+}
+
+
 
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const navItems: SidebarNavOptionsProps[] = [
-    { icon: "eye", onPress: () => { }, label: 'Dashboard', active: true },
-    { icon: "eye", onPress: () => { }, label: 'Orders' },
-    { icon: "eye", onPress: () => { }, label: 'Products' },
-    { icon: "eye", onPress: () => { }, label: 'Customers' },
-    { icon: "eye", onPress: () => { }, label: 'Analytics' },
+  const navItems: SidebarNavProps[] = [
+    {
+      group: "", nav: [
+        { icon: "home", onPress: () => { }, label: 'Home', active: true },
+      ]
+    },
+    {
+      group: "Games", nav: [
+        { icon: "whishlist", onPress: () => { }, label: 'Backlog' },
+        { icon: "gamepad", onPress: () => { }, label: 'Playing' },
+        { icon: "squareCheck", onPress: () => { }, label: 'Finished' },
+      ]
+    },
+    {
+      group: "Your Account", nav: [
+        { icon: "chart", onPress: () => { }, label: 'Activity', disabled: true, message: "Soon..." },
+      ]
+    },
   ];
 
   return (
@@ -26,7 +47,13 @@ export default function Sidebar() {
 
       <nav className="flex-1 space-y-2 overflow-y-auto">
         {navItems.map((item, idx) => (
-          <SidebarButton key={idx} item={item} />
+          <div key={idx} className={item.group && "pt-4 space-y-1"}>
+            <span className="text-sm font-semibold text-text-medium">{item.group}</span>
+
+            {item.nav.map((nav, index) => (
+              <SidebarButton key={index} item={nav} />
+            ))}
+          </div>
         ))}
       </nav>
 
@@ -47,16 +74,22 @@ function SidebarHeader({ setSidebarOpen }: { setSidebarOpen: (arg: boolean) => v
   )
 }
 
-function SidebarButton({ item }: { item: SidebarNavOptionsProps }) {
+function SidebarButton({ item }: { item: NavOptionsProps }) {
   return (
     <button
-      className={`flex items-center w-full px-4 py-2 rounded-lg transition-all ${item.active
+      disabled={item.disabled}
+      className={`flex items-center justify-between w-full px-4 py-2 rounded-lg transition-all disabled:hover:bg-transparent disabled:cursor-not-allowed ${item.active
         ? 'bg-btn-light'
         : 'bg-transparent hover:bg-btn-dark'
         }`}
     >
-      <Icon name={item.icon} size={16} className={`${item.active ? "text-text-dark" : "text-text-light"} mr-2`} />
-      <span className={`${item.active ? "text-text-dark" : "text-text-light"} text-sm font-normal`}>{item.label}</span>
+      <div className='flex items-center'>
+        <Icon name={item.icon} size={16} className={`${item.disabled && "text-text-medium"} ${item.active ? "text-text-dark" : "text-text-light"} mr-2`} />
+        <span className={`${item.disabled && "text-text-medium"} ${item.active ? "text-text-dark" : "text-text-light"} text-sm font-normal`}>{item.label}</span>
+      </div>
+      {item.message && (
+        <span className="text-xs font-normal text-text-medium">{item.message}</span>
+      )}
     </button>
   )
 }

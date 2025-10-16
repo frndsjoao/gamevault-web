@@ -5,7 +5,13 @@ import {
   EyeOff,
   X,
   LogOut,
-  Search
+  Search,
+  Bookmark,
+  Gamepad2,
+  SquareCheckBig,
+  ChartLine,
+  House,
+  PanelLeft,
 } from "lucide-react";
 
 export const icons = {
@@ -15,7 +21,13 @@ export const icons = {
   ellipsis: EllipsisVertical,
   close: X,
   logout: LogOut,
-  search: Search
+  search: Search,
+  whishlist: Bookmark,
+  gamepad: Gamepad2,
+  squareCheck: SquareCheckBig,
+  chart: ChartLine,
+  home: House,
+  panel: PanelLeft
 };
 
 interface IconProps {

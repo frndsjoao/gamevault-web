@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
-import { Menu, X, Home, ShoppingCart, Package, Users, TrendingUp, Settings } from 'lucide-react';
+import { useState } from 'react';
 import Sidebar from '../components/layout/Sidebar';
 import MainContent from '@/components/layout/MainContent';
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const navItems = [
-    { icon: Home, label: 'Dashboard', active: true },
-    { icon: ShoppingCart, label: 'Orders' },
-    { icon: Package, label: 'Products' },
-    { icon: Users, label: 'Customers' },
-    { icon: TrendingUp, label: 'Analytics' },
-  ];
+  const user = {
+    name: "João Pedro Assunção",
+    email: "jfernandees002@gmail.com",
+    password: "qweqweqwe",
+    birthDate: "2025-10-02",
+    preferredPlatform: "PlayStation 5"
+  }
 
   return (
     <div className='flex flex-row'>
       <Sidebar />
 
-      <MainContent header='Backlog'>
+      <MainContent user={user} setSidebarOpen={setSidebarOpen}>
         <p>Hello</p>
       </MainContent>
+
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
     </div>
   )
 }
