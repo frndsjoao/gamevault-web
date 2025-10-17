@@ -10,7 +10,6 @@ export default function Login() {
 
   const { mutate: signIn, isPending } = useSignInQuery();
 
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signIn({ email, password })

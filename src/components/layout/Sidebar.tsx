@@ -3,6 +3,7 @@ import Icon, { IconName } from '../common/Icon'
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { useUser } from '@/store/user';
 import { useAppNavigate } from '@/hooks/useNavigation';
+import { toast } from 'react-toastify';
 
 interface NavOptionsProps {
   icon: IconName;
@@ -102,10 +103,12 @@ function SidebarButton({ item }: { item: NavOptionsProps }) {
 
 function SidebarUser() {
   const navigate = useAppNavigate()
-  const { name, email } = useUser(state => state.user)
+  const { clearUser, user } = useUser(state => state)
 
   const handleLogout = () => {
+    toast("You're now logged out. See you later", { type: "default" })
     localStorage.clear()
+    clearUser()
     navigate("/signin")
   }
 
@@ -117,8 +120,8 @@ function SidebarUser() {
         </div>
 
         <div className='flex w-full min-w-0 flex-1 flex-col'>
-          <p className='truncate text-sm font-medium text-text-light'>{name}</p>
-          <p className='truncate text-xs font-normal text-text-medium'>{email}</p>
+          <p className='truncate text-sm font-medium text-text-light'>{user.name}</p>
+          <p className='truncate text-xs font-normal text-text-medium'>{user.email}</p>
         </div>
 
         <DropdownMenu>
