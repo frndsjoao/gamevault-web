@@ -1,7 +1,8 @@
 export interface IUser {
-  name: string,
-  email: string,
-  password: string,
-  birthDate: string,
-  preferredPlatform: string
+  name: string;
+  profilepic: string | null;
+  email: string;
+  birthDate: string;
+  preferredPlatform: string;
+  createdAt: string;
 }

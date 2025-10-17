@@ -7,8 +7,8 @@ export default function Router() {
   return (
     <RouterDom>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Navigate to="/signin" replace />} />
+        <Route path="/signin" element={<Login />} />
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
       </Routes>
     </RouterDom>

@@ -6,19 +6,11 @@ import GameCard from '@/components/common/GameCard';
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const user = {
-    name: "João Pedro Assunção",
-    email: "jfernandees002@gmail.com",
-    password: "qweqweqwe",
-    birthDate: "2025-10-02",
-    preferredPlatform: "PlayStation 5"
-  }
-
   return (
     <div className='flex flex-row'>
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <MainContent user={user} setSidebarOpen={setSidebarOpen}>
+      <MainContent setSidebarOpen={setSidebarOpen}>
         <div className='flex flex-row items-center gap-4'>
           <GameCard />
           <GameCard />

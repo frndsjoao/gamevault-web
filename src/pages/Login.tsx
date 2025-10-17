@@ -1,17 +1,19 @@
 import { useState, FormEvent } from 'react';
 import { BaseView, Button, Card, Checkbox, Input } from '../components';
 import Link from '../components/common/Link';
-import { useAppNavigate } from '../hooks/useNavigation';
+import { useSignInQuery } from '@/hooks/mutations/useAuth';
 
 export default function Login() {
-  const navigate = useAppNavigate()
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false)
 
+  const { mutate: signIn, isPending } = useSignInQuery();
+
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password });
+    signIn({ email, password })
   };
 
   return (
@@ -50,7 +52,7 @@ export default function Login() {
           </div>
 
           <div className='flex flex-col items-center border-t-[1px] border-t-text-medium pt-4'>
-            <Button label='Login' onClick={() => navigate("/dashboard")} />
+            <Button type="submit" label='Login' isLoading={isPending} />
             <Link label='Criar conta' />
           </div>
         </form>

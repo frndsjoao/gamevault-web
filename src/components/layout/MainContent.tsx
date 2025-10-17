@@ -1,18 +1,17 @@
 import React from 'react'
 import Icon from '../common/Icon';
-import { IUser } from '@/types/user.types';
+import { useUser } from '@/store/user';
 
 interface MainContentProps {
   children: React.ReactNode;
-  user: IUser;
   setSidebarOpen: (arg: boolean) => void
 }
 
-export default function MainContent({ children, user, setSidebarOpen }: MainContentProps) {
+export default function MainContent({ children, setSidebarOpen }: MainContentProps) {
   return (
     <div className='flex h-screen flex-1 flex-col bg-bg-dark p-4 lg:ml-72'>
       <div className='flex flex-1 flex-col overflow-hidden rounded-xl bg-bg-darkest'>
-        <MainContentHeader username={user.name} setSidebarOpen={setSidebarOpen} />
+        <MainContentHeader setSidebarOpen={setSidebarOpen} />
 
         <main className='flex flex-1 flex-col overflow-y-auto px-6 py-4'>
           {children}
@@ -22,8 +21,9 @@ export default function MainContent({ children, user, setSidebarOpen }: MainCont
   )
 }
 
-function MainContentHeader({ username, setSidebarOpen }: { username: string; setSidebarOpen: (arg: boolean) => void }) {
-  const name = username.split(' ')[0]
+function MainContentHeader({ setSidebarOpen }: { setSidebarOpen: (arg: boolean) => void }) {
+  const name = useUser(state => state.user?.name)
+  const firstName = name?.split(" ")[0]
 
   return (
     <header className='flex flex-shrink-0 flex-row items-center justify-between border-b-2 border-bg-dark bg-transparent px-6 py-4'>
@@ -31,7 +31,7 @@ function MainContentHeader({ username, setSidebarOpen }: { username: string; set
         <button onClick={() => setSidebarOpen(true)} className="lg:hidden">
           <Icon name='panel' className='text-text-light' />
         </button>
-        <h1 className='text-lg font-bold text-text-light lg:text-xl'>Welcome back, {name}</h1>
+        <h1 className='text-lg font-bold text-text-light lg:text-xl'>Welcome back, {firstName}</h1>
       </div>
 
       <button className='flex flex-row items-center space-x-3 rounded-lg px-4 py-2 transition-colors duration-200 hover:bg-gray-900'>

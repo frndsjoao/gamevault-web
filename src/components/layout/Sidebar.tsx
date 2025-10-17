@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Icon, { IconName } from '../common/Icon'
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { useUser } from '@/store/user';
+import { useAppNavigate } from '@/hooks/useNavigation';
 
 interface NavOptionsProps {
   icon: IconName;
@@ -99,11 +101,12 @@ function SidebarButton({ item }: { item: NavOptionsProps }) {
 }
 
 function SidebarUser() {
-  const username = "Fulano de tal"
-  const useremail = "testetestetestetesteteste@gmail.com"
+  const navigate = useAppNavigate()
+  const { name, email } = useUser(state => state.user)
 
   const handleLogout = () => {
-    console.log('Logout clicked')
+    localStorage.clear()
+    navigate("/signin")
   }
 
   return (
@@ -114,8 +117,8 @@ function SidebarUser() {
         </div>
 
         <div className='flex w-full min-w-0 flex-1 flex-col'>
-          <p className='truncate text-sm font-medium text-text-light'>{username}</p>
-          <p className='truncate text-xs font-normal text-text-medium'>{useremail}</p>
+          <p className='truncate text-sm font-medium text-text-light'>{name}</p>
+          <p className='truncate text-xs font-normal text-text-medium'>{email}</p>
         </div>
 
         <DropdownMenu>
