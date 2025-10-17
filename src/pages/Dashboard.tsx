@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Sidebar from '../components/layout/Sidebar';
 import MainContent from '@/components/layout/MainContent';
+import GameCard from '@/components/common/GameCard';
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,10 +16,15 @@ export default function Dashboard() {
 
   return (
     <div className='flex flex-row'>
-      <Sidebar />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <MainContent user={user} setSidebarOpen={setSidebarOpen}>
-        <p>Hello</p>
+        <div className='flex flex-row items-center gap-4'>
+          <GameCard />
+          <GameCard />
+          <GameCard />
+          <GameCard />
+        </div>
       </MainContent>
 
       {sidebarOpen && (

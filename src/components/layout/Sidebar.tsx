@@ -18,8 +18,12 @@ interface SidebarNavProps {
 
 
 
-export default function Sidebar() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+interface SidebarProps {
+  sidebarOpen?: boolean;
+  setSidebarOpen?: (arg: boolean) => void;
+}
+
+export default function Sidebar({ sidebarOpen = false, setSidebarOpen }: SidebarProps = {}) {
 
   const navItems: SidebarNavProps[] = [
     {
@@ -31,7 +35,7 @@ export default function Sidebar() {
       group: "Games", nav: [
         { icon: "whishlist", onPress: () => { }, label: 'Backlog' },
         { icon: "gamepad", onPress: () => { }, label: 'Playing' },
-        { icon: "squareCheck", onPress: () => { }, label: 'Finished' },
+        { icon: "square-check", onPress: () => { }, label: 'Finished' },
       ]
     },
     {
@@ -62,12 +66,12 @@ export default function Sidebar() {
   )
 }
 
-function SidebarHeader({ setSidebarOpen }: { setSidebarOpen: (arg: boolean) => void }) {
+function SidebarHeader({ setSidebarOpen }: { setSidebarOpen?: (arg: boolean) => void }) {
   return (
     <div className="mb-6 flex items-center justify-between">
       <h1 className="text-xl font-bold text-text-light">Gamevault</h1>
 
-      <button onClick={() => setSidebarOpen(false)} className="lg:hidden">
+      <button onClick={() => setSidebarOpen?.(false)} className="lg:hidden">
         <Icon name='close' size={24} />
       </button>
     </div>
@@ -78,7 +82,7 @@ function SidebarButton({ item }: { item: NavOptionsProps }) {
   return (
     <button
       disabled={item.disabled}
-      className={`flex items-center justify-between w-full px-4 py-2 rounded-lg transition-all disabled:hover:bg-transparent disabled:cursor-not-allowed ${item.active
+      className={`flex items-center justify-between w-full px-4 py-2 rounded-lg transition-colors ease-in-out duration-300 disabled:hover:bg-transparent disabled:cursor-not-allowed ${item.active
         ? 'bg-btn-light'
         : 'bg-transparent hover:bg-btn-dark'
         }`}
@@ -103,7 +107,7 @@ function SidebarUser() {
   }
 
   return (
-    <div className='w-full rounded-lg bg-transparent px-4 py-3 transition-all hover:bg-btn-dark'>
+    <div className='w-full rounded-lg bg-transparent px-4 py-3 transition-colors duration-300 ease-in-out hover:bg-btn-dark'>
       <div className='flex items-center space-x-4'>
         <div className='rounded-full bg-white p-2 opacity-30'>
           <Icon name='user' size={20} />

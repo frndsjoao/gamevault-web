@@ -31,12 +31,12 @@ function MainContentHeader({ username, setSidebarOpen }: { username: string; set
         <button onClick={() => setSidebarOpen(true)} className="lg:hidden">
           <Icon name='panel' className='text-text-light' />
         </button>
-        <h1 className='text-xl font-bold text-text-light'>Welcome back, {name}</h1>
+        <h1 className='text-lg font-bold text-text-light lg:text-xl'>Welcome back, {name}</h1>
       </div>
 
       <button className='flex flex-row items-center space-x-3 rounded-lg px-4 py-2 transition-colors duration-200 hover:bg-gray-900'>
         <Icon name='search' size={16} className='text-text-light' />
-        <span className='text-sm text-text-light'>Search game</span>
+        <span className='text-sm text-text-light max-lg:hidden'>Search game</span>
       </button>
     </header>
   )

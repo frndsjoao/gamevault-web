@@ -12,7 +12,11 @@ import {
   ChartLine,
   House,
   PanelLeft,
+  Star,
+  StarHalf,
+  Trophy,
 } from "lucide-react";
+import { BsNintendoSwitch, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
 
 export const icons = {
   user: User,
@@ -24,10 +28,18 @@ export const icons = {
   search: Search,
   whishlist: Bookmark,
   gamepad: Gamepad2,
-  squareCheck: SquareCheckBig,
+  "square-check": SquareCheckBig,
   chart: ChartLine,
   home: House,
-  panel: PanelLeft
+  panel: PanelLeft,
+  star: Star,
+  "star-half": StarHalf,
+  platinum: Trophy,
+
+  playstation: BsPlaystation,
+  nintendo: BsNintendoSwitch,
+  xbox: BsXbox,
+  pc: BsWindows,
 };
 
 interface IconProps {
@@ -36,12 +48,12 @@ interface IconProps {
   className?: string;
 }
 
-export default function Icon({ name, size = 20, className = "shrink-0 text-text-dark" }: IconProps) {
+export default function Icon({ name, size = 20, className }: IconProps) {
   const IconComponent = name ? icons[name] : null;
 
   if (!IconComponent) return null;
 
-  return <IconComponent size={size} className={className} />;
+  return <IconComponent size={size} className={`shrink-0 text-text-dark ${className}`} />;
 }
 
 export type IconName = keyof typeof icons;
