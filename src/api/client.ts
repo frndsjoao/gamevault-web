@@ -1,4 +1,9 @@
+import { getUserToken } from '@/lib/utils'
 import axios, { AxiosError } from 'axios'
+
+type ApiErrorResponse = {
+  errors?: string[] | string
+}
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_DEVURL,
@@ -17,7 +22,7 @@ api.interceptors.request.use(
     )
 
     if (!isPublicRoute) {
-      const token = localStorage.getItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
+      const token = getUserToken()
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
@@ -30,7 +35,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
+  (error: AxiosError<ApiErrorResponse>) => {
     const isPublicRoute = publicRoutes.some((route) =>
       error.config?.url?.includes(route)
     )

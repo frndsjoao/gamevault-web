@@ -120,8 +120,8 @@ function SidebarUser() {
         </div>
 
         <div className='flex w-full min-w-0 flex-1 flex-col'>
-          <p className='truncate text-sm font-medium text-text-light'>{user.name}</p>
-          <p className='truncate text-xs font-normal text-text-medium'>{user.email}</p>
+          <p className='truncate text-sm font-medium text-text-light'>{user?.name}</p>
+          <p className='truncate text-xs font-normal text-text-medium'>{user?.email}</p>
         </div>
 
         <DropdownMenu>

@@ -42,8 +42,6 @@ export default function GameCard() {
   )
 }
 
-
-
 function StatusOptions({ activeColumn, active }: StatusOptionsProps) {
   const status = ["Backlog", "Playing", "On Hold", "Completed"]
 

@@ -1,3 +1,4 @@
+import { getUserToken } from "@/lib/utils";
 import { JSX } from "react";
 import { Navigate } from "react-router-dom";
 
@@ -6,7 +7,7 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ element }: PrivateRouteProps) {
-  const token = localStorage.getItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN);
+  const token = getUserToken()
 
   return token ? element : <Navigate to="/signin" replace />;
 }

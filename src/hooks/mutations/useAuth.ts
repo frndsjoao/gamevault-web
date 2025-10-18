@@ -9,7 +9,6 @@ export const useSignInQuery = () => {
   const navigate = useNavigate();
   const setUser = useUser((state) => state.setUser)
 
-
   return useMutation({
     mutationFn: authService.signin,
     onSuccess: (data) => {

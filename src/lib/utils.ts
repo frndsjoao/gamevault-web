@@ -11,3 +11,7 @@ export function showErrorToast(error: string[]) {
     type: "error"
   }))
 }
+
+export function getUserToken() {
+  return localStorage.getItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
+}

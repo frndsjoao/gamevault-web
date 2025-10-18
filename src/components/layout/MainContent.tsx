@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Icon from '../common/Icon';
 import { useUser } from '@/store/user';
+import { getUserToken } from '@/lib/utils';
+import { useProfileQuery } from '@/hooks/queries/useProfile';
 
 interface MainContentProps {
   children: React.ReactNode;
@@ -8,6 +10,17 @@ interface MainContentProps {
 }
 
 export default function MainContent({ children, setSidebarOpen }: MainContentProps) {
+  const accessToken = getUserToken()
+  const { setUser, user } = useUser(state => state)
+
+  const { data } = useProfileQuery({ enabled: !!accessToken && !user })
+
+  useEffect(() => {
+    if (data) {
+      setUser(data)
+    }
+  }, [data, setUser])
+
   return (
     <div className='flex h-screen flex-1 flex-col bg-bg-dark p-4 lg:ml-72'>
       <div className='flex flex-1 flex-col overflow-hidden rounded-xl bg-bg-darkest'>

@@ -10,7 +10,7 @@ export const ENDPOINTS = {
   user: {
     signup: "/signup",
     signin: "/signin",
-    // profile: "/profile"
+    profile: "/profile"
     // stats: "/stats"
   },
 } as const
