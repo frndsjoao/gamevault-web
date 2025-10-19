@@ -1,6 +1,6 @@
 import { api } from '@/api/client'
 import { ENDPOINTS } from '@/api/endpoints'
-import { IGameSearch } from '@/types/game.types';
+import { IGameSearchResponse } from '@/types/game.types';
 
 export interface SearchRequestProps {
   name: string;
@@ -8,9 +8,9 @@ export interface SearchRequestProps {
 }
 
 export const gamesService = {
-  search: async (query: SearchRequestProps): Promise<IGameSearch> => {
+  search: async (query: SearchRequestProps): Promise<IGameSearchResponse> => {
     try {
-      const { data } = await api.get<IGameSearch>(ENDPOINTS.games.searchByName(query))
+      const { data } = await api.get<IGameSearchResponse>(ENDPOINTS.games.searchByName(query))
 
       return data
     } catch (error) {

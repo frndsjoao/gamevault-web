@@ -14,10 +14,11 @@ export interface IGame {
 }
 
 export interface IGameSearch {
-  games: {
-    id: number;
-    name: string;
-    cover: string;
-    platforms: { id: number; name: IGamePlatform; releaseDate: number }[]
-  }[]
+  id: number;
+  name: string;
+  cover: string;
+  platforms: { id: number; name: IGamePlatform; releaseDate: number }[]
+}
+export interface IGameSearchResponse {
+  games: IGameSearch[]
 }

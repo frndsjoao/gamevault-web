@@ -41,10 +41,10 @@ export const icons = {
   "chevron-left": ChevronLeft,
   "chevron-right": ChevronRight,
 
-  playstation: BsPlaystation,
-  nintendo: BsNintendoSwitch,
-  xbox: BsXbox,
-  pc: BsWindows,
+  "plat-playstation": BsPlaystation,
+  "plat-nintendo": BsNintendoSwitch,
+  "plat-xbox": BsXbox,
+  "plat-pc": BsWindows,
 };
 
 interface IconProps {
