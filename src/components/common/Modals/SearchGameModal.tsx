@@ -84,8 +84,8 @@ export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProp
 
 function SearchByName({ setSearchTerm, searchTerm, filteredGames, handleGameSelect }: SearchByNameProps) {
   return (
-    <div className="flex h-full min-w-full flex-col p-6">
-      <div className='mb-4'>
+    <div className="flex h-[50vh] md:h-[55vh] lg:h-[60vh] min-w-full flex-col p-3 md:p-4 lg:p-6">
+      <div className='mb-3 md:mb-4'>
         <Input
           type='text'
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -103,13 +103,13 @@ function SearchByName({ setSearchTerm, searchTerm, filteredGames, handleGameSele
               <button
                 key={game.id}
                 onClick={() => handleGameSelect(game)}
-                className="w-full rounded-lg bg-gray-800 px-4 py-3 text-left text-text-light transition-all duration-200 hover:bg-gray-700 hover:shadow-md"
+                className="w-full rounded-lg bg-gray-800 px-3 py-2.5 md:px-4 md:py-3 text-left text-sm md:text-base text-text-light transition-all duration-200 hover:bg-gray-700 hover:shadow-md active:scale-[0.98]"
               >
                 {game.name}
               </button>
             ))
           ) : (
-            <p className="py-8 text-center text-gray-500">Nenhum jogo encontrado</p>
+            <p className="py-6 md:py-8 text-center text-sm md:text-base text-gray-500">Nenhum jogo encontrado</p>
           )}
         </div>
       </div>

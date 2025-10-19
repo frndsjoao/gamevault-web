@@ -11,7 +11,7 @@ export default function Dashboard() {
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <MainContent setSidebarOpen={setSidebarOpen}>
-        <div className='flex flex-row items-center gap-4'>
+        <div className='grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5'>
           <GameCard />
           <GameCard />
           <GameCard />
