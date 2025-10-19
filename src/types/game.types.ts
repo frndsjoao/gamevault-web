@@ -12,3 +12,12 @@ export interface IGame {
   status: IGameStatus;
   createdAt: string;
 }
+
+export interface IGameSearch {
+  games: {
+    id: number;
+    name: string;
+    cover: string;
+    platforms: { id: number; name: IGamePlatform; releaseDate: number }[]
+  }[]
+}

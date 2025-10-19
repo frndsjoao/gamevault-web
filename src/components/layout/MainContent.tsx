@@ -3,7 +3,7 @@ import Icon from '../common/Icon';
 import { useUser } from '@/store/user';
 import { getUserToken } from '@/lib/utils';
 import { useProfileQuery } from '@/hooks/queries/useProfile';
-import SearchGameModal from '../common/Modals/SearchGameModal';
+import SearchGameModal from './Modals/SearchGameModal';
 
 interface MainContentProps {
   children: React.ReactNode;

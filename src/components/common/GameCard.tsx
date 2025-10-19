@@ -2,7 +2,7 @@ import { IGameStatus } from '@/types/gameStatus.types'
 import { useState } from 'react'
 import Icon from './Icon'
 import Rating from './Rating'
-import GameModal from './Modals/GameModal'
+import GameModal from '../layout/Modals/GameModal'
 
 interface StatusOptionsProps {
   activeColumn?: "Playing" | "Backlog" | "Completed"

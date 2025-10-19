@@ -1,3 +1,5 @@
+import { SearchRequestProps } from "@/services/games.service";
+
 export const ENDPOINTS = {
   games: {
     list: '/games',
@@ -5,7 +7,7 @@ export const ENDPOINTS = {
     // byId: (id: string) => `/games/${id}`,
     // deleteById: (id: string) => `/games/${id}`,
     updateById: (id: string) => `/games/${id}`,
-    searchByName: (name: string) => `/search?search=${name}`
+    searchByName: ({ name, platform }: SearchRequestProps) => `/search?search=${name}${platform ? `&platform=(${platform})` : ""}`
   },
   user: {
     signup: "/signup",

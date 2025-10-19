@@ -1,5 +1,5 @@
+import Icon from '@/components/common/Icon';
 import React, { useEffect } from 'react'
-import Icon from '../Icon';
 
 interface ModalProps {
   isOpen: boolean
