@@ -15,6 +15,7 @@ import {
   Star,
   StarHalf,
   Trophy,
+  ArrowLeft,
 } from "lucide-react";
 import { BsNintendoSwitch, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
 
@@ -35,6 +36,7 @@ export const icons = {
   star: Star,
   "star-half": StarHalf,
   platinum: Trophy,
+  "arrow-left": ArrowLeft,
 
   playstation: BsPlaystation,
   nintendo: BsNintendoSwitch,

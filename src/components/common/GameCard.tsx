@@ -1,6 +1,8 @@
 import { IGameStatus } from '@/types/gameStatus.types'
+import { useState } from 'react'
 import Icon from './Icon'
 import Rating from './Rating'
+import GameModal from './Modals/GameModal'
 
 interface StatusOptionsProps {
   activeColumn?: "Playing" | "Backlog" | "Completed"
@@ -8,6 +10,8 @@ interface StatusOptionsProps {
 }
 
 export default function GameCard() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const game = {
     name: "The witcher 3: Wild Hunt GOTY Premium Edition",
     platform: "Playstation",
@@ -18,27 +22,38 @@ export default function GameCard() {
   }
 
   return (
-    <div className='relative w-60 rounded-lg border border-border bg-gray-900'>
-      <img
-        className="h-64 w-60 rounded-t-lg object-cover"
-        src={game.imgurl}
-        alt={`${game.name} cover`}
-        loading='lazy'
-      />
-
-      <div className='px-3 py-2'>
-        <div className='mb-2 flex flex-row items-center justify-between gap-1'>
-          <p className='text-base font-medium text-text-light'>{game.name}</p>
-          <Icon name="playstation" size={16} className='text-text-light' />
+    <>
+      <div className='relative w-60 overflow-hidden rounded-lg border border-border bg-gray-900'>
+        <div className='h-64 w-60 overflow-hidden'>
+          <img
+            className="h-64 w-60 cursor-pointer rounded-t-lg object-cover transition-transform duration-300 hover:scale-105"
+            src={game.imgurl}
+            alt={`${game.name} cover`}
+            loading='lazy'
+            onClick={() => setIsModalOpen(true)}
+          />
         </div>
 
-        <Rating rating={4} />
+        <div className='px-3 py-2'>
+          <div className='mb-2 flex flex-row items-center justify-between gap-1'>
+            <p className='text-base font-medium text-text-light'>{game.name}</p>
+            <Icon name="playstation" size={16} className='text-text-light' />
+          </div>
 
-        {game.status && (
-          <StatusOptions activeColumn="Playing" active="Playing" />
-        )}
+          <Rating rating={4} />
+
+          {game.status && (
+            <StatusOptions activeColumn="Playing" active="Playing" />
+          )}
+        </div>
       </div>
-    </div>
+
+      <GameModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        game={{ image: game.imgurl, name: game.name }}
+      />
+    </>
   )
 }
 
