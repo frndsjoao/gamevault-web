@@ -1,6 +1,6 @@
-import { api } from '@/api/client'
-import { ENDPOINTS } from '@/api/endpoints'
-import { IUser } from '@/types/user.types';
+import { api } from '@/services/api/client'
+import { ENDPOINTS } from '@/services/api/endpoints'
+import { IUser } from '@/@types/user';
 
 export const userService = {
   profile: async (): Promise<IUser> => {

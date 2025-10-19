@@ -15,7 +15,6 @@ import {
   Star,
   StarHalf,
   Trophy,
-  ArrowLeft,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";

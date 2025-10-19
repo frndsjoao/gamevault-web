@@ -1,6 +1,4 @@
-export type IGamePlatform = "PC (Microsoft Windows)" | "PlayStation" | "PlayStation 2" | "PlayStation 3" | "PlayStation 4" | "PlayStation 5" | "Xbox Series X|S" | "Xbox One" | "Nintendo Switch"
-
-export const gamePlatform = [
+export const platforms = [
   { id: 6, name: "PC (Microsoft Windows)" },
   { id: 7, name: "PlayStation" },
   { id: 8, name: "PlayStation 2" },

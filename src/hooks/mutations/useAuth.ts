@@ -1,7 +1,7 @@
-import { showErrorToast } from '@/lib/utils';
+import { showErrorToast } from '@/utils/utils';
 import { authService } from '@/services/auth.service';
 import { useUser } from '@/store/user';
-import { IApiError } from '@/types/apiError.types';
+import { IApiError } from '@/@types/apiError';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

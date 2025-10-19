@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Icon from '../common/Icon';
 import { useUser } from '@/store/user';
-import { getUserToken } from '@/lib/utils';
+import { getUserToken } from '@/utils/utils';
 import { useProfileQuery } from '@/hooks/queries/useProfile';
 import SearchGameModal from './Modals/SearchGameModal';
 

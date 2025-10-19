@@ -1,4 +1,4 @@
-import { getUserToken } from '@/lib/utils'
+import { getUserToken } from '@/utils/utils'
 import axios, { AxiosError } from 'axios'
 
 type ApiErrorResponse = {

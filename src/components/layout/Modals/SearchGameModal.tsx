@@ -1,13 +1,13 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import ModalContainer from './Modal'
 import { GameModalContent } from './GameModal'
 import Input from '@/components/common/Input'
 import { useSearchGameQuery } from '@/hooks/queries/useSearchGame'
-import { IGameSearch } from '@/types/game.types'
 import React from 'react'
 import DumbGameCover from '@/components/common/DumbGameCover'
 import Icon from '@/components/common/Icon'
-import { getPlatformIcons } from '@/lib/getPlatformIcons'
+import { getPlatformIcons } from '@/utils/getPlatformIcons'
+import { IGameSearchIGDB } from '@/@types/game'
 
 interface SearchGameModalProps {
   isOpen: boolean
@@ -17,8 +17,8 @@ interface SearchGameModalProps {
 interface SearchByNameProps {
   setSearchTerm: (arg: string) => void
   searchTerm: string
-  gameList: IGameSearch[]
-  handleGameSelect: (game: IGameSearch) => void
+  gameList: IGameSearchIGDB[] | undefined
+  handleGameSelect: (game: IGameSearchIGDB) => void
   isLoading: boolean
 }
 
@@ -28,15 +28,16 @@ export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProp
   const [searchTerm, setSearchTerm] = useState('death')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [debounceLoader, setDebounceLoader] = useState(false)
-  const [selectedGame, setSelectedGame] = useState<IGameSearch | null>(null)
+  const [selectedGame, setSelectedGame] = useState<IGameSearchIGDB | null>(null)
   const [isSliding, setIsSliding] = useState(false)
 
-  const { data, isLoading } = useSearchGameQuery({ name: debouncedSearch }, {
+  const { data: gameList, isLoading } = useSearchGameQuery({ name: debouncedSearch }, {
     enabled: debouncedSearch.length >= 3
   })
-  const gameList = useMemo(() => data?.games || [], [data])
 
-  const handleGameSelect = useCallback((game: IGameSearch) => {
+  console.log(gameList)
+
+  const handleGameSelect = useCallback((game: IGameSearchIGDB) => {
     setIsSliding(true)
     setTimeout(() => {
       setSelectedGame(game)
@@ -131,14 +132,14 @@ const SearchByName = React.memo(({
               Buscando...
             </p>
           )}
-          {(gameList.length > 0 && !isLoading && searchTerm.length >= 3) && (
+          {(gameList && gameList.length > 0 && !isLoading && searchTerm.length >= 3) && (
             <>
               {gameList.map(game => (
                 <GameSelectionBtn key={game.id} game={game} handleGameSelect={handleGameSelect} />
               ))}
             </>
           )}
-          {(gameList.length === 0 && !isLoading && searchTerm.length >= 3) && (
+          {(gameList && gameList.length === 0 && !isLoading && searchTerm.length >= 3) && (
             <p className="py-6 text-center text-sm text-gray-500 md:py-8 md:text-base">
               Game not found.
             </p>
@@ -149,10 +150,9 @@ const SearchByName = React.memo(({
   )
 })
 
-const GameSelectionBtn = React.memo(({ game, handleGameSelect }: { game: IGameSearch, handleGameSelect: (game: IGameSearch) => void }) => {
+const GameSelectionBtn = React.memo(({ game, handleGameSelect }: { game: IGameSearchIGDB, handleGameSelect: (game: IGameSearchIGDB) => void }) => {
   const platform = getPlatformIcons(game.platforms)
 
-  console.log(platform)
   return (
     <button
       key={game.id}
@@ -170,8 +170,8 @@ const GameSelectionBtn = React.memo(({ game, handleGameSelect }: { game: IGameSe
       )}
       <div className=''>
         <p className='text-sm font-semibold text-text-light md:text-base'>{game.name} - {game.platforms[0].releaseDate}</p>
-        {platform.map((p: any) => (
-          <Icon name={`plat-${p}`} size={14} className='mr-3 hidden text-text-medium md:inline' />
+        {platform.map((p) => (
+          <Icon name={p} size={14} className='mr-3 hidden text-text-medium md:inline' />
         ))}
       </div>
     </button>

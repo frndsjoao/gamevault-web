@@ -1,4 +1,4 @@
-import { getUserToken } from "@/lib/utils";
+import { getUserToken } from "@/utils/utils";
 import { JSX } from "react";
 import { Navigate } from "react-router-dom";
 

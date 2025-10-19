@@ -1,5 +1,5 @@
 import { userService } from "@/services/user.service"
-import { IUser } from "@/types/user.types"
+import { IUser } from "@/@types/user"
 import { QueryKey, useQuery, UseQueryOptions } from "@tanstack/react-query"
 
 export function useProfileQuery(

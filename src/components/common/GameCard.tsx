@@ -1,12 +1,12 @@
-import { IGameStatus } from '@/types/gameStatus.types'
 import { useState } from 'react'
 import Icon from './Icon'
 import Rating from './Rating'
 import GameModal from '../layout/Modals/GameModal'
+import { GameStatusType } from '@/@types/game'
 
 interface StatusOptionsProps {
   activeColumn?: "Playing" | "Backlog" | "Completed"
-  active?: IGameStatus
+  active?: GameStatusType
 }
 
 export default function GameCard() {
@@ -37,7 +37,7 @@ export default function GameCard() {
         <div className='px-2 py-2 md:px-3'>
           <div className='mb-2 flex flex-row items-center justify-between gap-1'>
             <p className='truncate text-sm font-medium text-text-light md:text-base'>{game.name}</p>
-            <Icon name="playstation" size={14} className='flex-shrink-0 text-text-light md:size-4' />
+            <Icon name="plat-playstation" size={14} className='flex-shrink-0 text-text-light md:size-4' />
           </div>
 
           <Rating rating={4} />
