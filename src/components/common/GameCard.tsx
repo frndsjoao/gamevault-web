@@ -23,10 +23,10 @@ export default function GameCard() {
 
   return (
     <>
-      <div className='relative w-full overflow-hidden rounded-lg border border-border bg-gray-900'>
-        <div className='aspect-[3/4] w-full overflow-hidden'>
+      <div className='relative w-48 flex-shrink-0 overflow-hidden rounded-lg border border-border bg-gray-900 md:w-56 lg:w-64'>
+        <div className='aspect-[3/4] max-h-72 w-full overflow-hidden'>
           <img
-            className="h-full w-full cursor-pointer rounded-t-lg object-cover transition-transform duration-300 hover:scale-105"
+            className="h-full w-full cursor-pointer rounded-t-lg object-cover object-center transition-transform duration-300 hover:scale-105"
             src={game.imgurl}
             alt={`${game.name} cover`}
             loading='lazy'

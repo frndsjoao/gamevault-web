@@ -27,7 +27,7 @@ export default function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <Input
-            // required
+            required
             type='email'
             label='E-mail'
             onChange={(e) => setEmail(e.target.value)}
@@ -36,7 +36,7 @@ export default function Login() {
           />
           <div>
             <Input
-              // required
+              required
               type={showPassword ? "text" : 'password'}
               label='Password'
               onChange={(e) => setPassword(e.target.value)}

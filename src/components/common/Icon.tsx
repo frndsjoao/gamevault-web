@@ -16,6 +16,8 @@ import {
   StarHalf,
   Trophy,
   ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { BsNintendoSwitch, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
 
@@ -36,7 +38,8 @@ export const icons = {
   star: Star,
   "star-half": StarHalf,
   platinum: Trophy,
-  "arrow-left": ArrowLeft,
+  "chevron-left": ChevronLeft,
+  "chevron-right": ChevronRight,
 
   playstation: BsPlaystation,
   nintendo: BsNintendoSwitch,

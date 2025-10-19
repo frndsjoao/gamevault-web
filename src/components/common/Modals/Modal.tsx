@@ -42,33 +42,33 @@ export default function ModalContainer({ isOpen, onClose, goBack, title, childre
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity duration-500 ease-out p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm transition-opacity duration-500 ease-out"
       onClick={onClose}
     >
       <div
-        className="relative max-h-[85vh] md:max-h-[80vh] w-full max-w-2xl transform overflow-hidden rounded-lg md:rounded-xl bg-gray-900 p-4 md:p-6 shadow-2xl transition-all duration-500 ease-out animate-in fade-in slide-in-from-bottom-4"
+        className="relative max-h-[85vh] w-full max-w-2xl transform overflow-hidden rounded-lg bg-gray-900 p-4 shadow-2xl transition-all duration-500 ease-out animate-in fade-in slide-in-from-bottom-4 md:max-h-[80vh] md:rounded-xl md:p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className='flex flex-row items-center justify-between gap-2 md:gap-3 mb-2 md:mb-0'>
+        <div className='mb-2 flex flex-row items-center justify-between gap-2 md:mb-0 md:gap-3'>
           <div className='flex w-full flex-row items-center gap-2 md:gap-3'>
             {goBack && (
               <button
                 onClick={goBack}
-                className="rounded-full bg-gray-800 p-1.5 md:p-2 transition-colors duration-500 hover:bg-gray-700"
+                className="rounded-full bg-gray-800 p-1.5 transition-colors duration-500 hover:bg-gray-700 md:p-2"
                 aria-label="Go back modal"
               >
-                <Icon name='arrow-left' size={16} className='text-text-light' />
+                <Icon name="chevron-left" size={16} className='text-text-light' />
               </button>
             )}
 
             {title && (
-              <h1 className='truncate text-base md:text-lg font-bold text-text-light'>{title}</h1>
+              <h1 className='truncate text-base font-bold text-text-light md:text-lg'>{title}</h1>
             )}
           </div>
           {onClose && (
             <button
               onClick={onClose}
-              className="rounded-full bg-gray-800 p-1.5 md:p-2 transition-colors duration-500 hover:bg-gray-700 flex-shrink-0"
+              className="flex-shrink-0 rounded-full bg-gray-800 p-1.5 transition-colors duration-500 hover:bg-gray-700 md:p-2"
               aria-label="Close modal"
             >
               <Icon name='close' size={16} className='text-text-light' />
