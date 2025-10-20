@@ -17,7 +17,7 @@ export default function GameModal({ isOpen, onClose, game }: GameModalProps) {
 
 export function GameModalContent({ game }: { game: Game }) {
   return (
-    <div className="flex flex-col items-center gap-3 p-3 md:gap-4 md:p-4 lg:p-6">
+    <div className="flex min-w-full flex-col items-center gap-3 p-3 md:gap-4 md:p-4 lg:p-6">
       <img
         src={game.image}
         alt={game.name}

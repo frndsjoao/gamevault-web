@@ -8,15 +8,18 @@ export interface IPlatform {
 }
 
 export interface IGame {
-  name: string;
-  platform: GamePlatformType;
-  rating: number;
-  platinum: boolean;
-  finishedAt: string;
   id: number;
-  user_id: number;
-  status: GameStatusType;
-  createdAt: string;
+  name: string;
+  cover: string;
+  platforms: IPlatform[]
+
+  selectedPlatform?: GamePlatformType;
+  rating?: number;
+  platinum?: boolean;
+  finishedAt?: string;
+  user_id?: number;
+  status?: GameStatusType;
+  createdAt?: string;
 }
 
 export interface IGameSearchIGDB {

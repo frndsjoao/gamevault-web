@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import ModalContainer from './Modal'
 import { GameModalContent } from './GameModal'
 import Input from '@/components/common/Input'
@@ -25,17 +25,34 @@ interface SearchByNameProps {
 const DEBOUNCE_TIMER = 800
 
 export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProps) {
-  const [searchTerm, setSearchTerm] = useState('death')
+  const [searchTerm, setSearchTerm] = useState('dave')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [debounceLoader, setDebounceLoader] = useState(false)
   const [selectedGame, setSelectedGame] = useState<IGameSearchIGDB | null>(null)
   const [isSliding, setIsSliding] = useState(false)
 
-  const { data: gameList, isLoading } = useSearchGameQuery({ name: debouncedSearch }, {
-    enabled: debouncedSearch.length >= 3
-  })
+  // const { data: gameList, isLoading } = useSearchGameQuery({ name: debouncedSearch }, {
+  //   enabled: debouncedSearch.length >= 3
+  // })
 
-  console.log(gameList)
+  const isLoading = false
+  const gameList = [{
+    "id": 731,
+    "name": "Grand Theft Auto IV",
+    "cover": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2lbv.jpg",
+    "platforms": [
+      {
+        "id": 9,
+        "name": "PlayStation 3",
+        "releaseDate": 2008
+      },
+      {
+        "id": 6,
+        "name": "PC (Microsoft Windows)",
+        "releaseDate": 2008
+      }
+    ]
+  }]
 
   const handleGameSelect = useCallback((game: IGameSearchIGDB) => {
     setIsSliding(true)
@@ -57,6 +74,7 @@ export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProp
     setSelectedGame(null)
     setDebouncedSearch("")
     setDebounceLoader(false)
+    setIsSliding(false)
   }, [onClose])
 
   useEffect(() => {
@@ -151,12 +169,16 @@ const SearchByName = React.memo(({
 })
 
 const GameSelectionBtn = React.memo(({ game, handleGameSelect }: { game: IGameSearchIGDB, handleGameSelect: (game: IGameSearchIGDB) => void }) => {
-  const platform = getPlatformIcons(game.platforms)
+  const platform = useMemo(() => getPlatformIcons(game.platforms), [game.platforms])
+
+  const handleClick = useCallback(() => {
+    handleGameSelect(game)
+  }, [game, handleGameSelect])
 
   return (
     <button
       key={game.id}
-      onClick={() => handleGameSelect(game)}
+      onClick={handleClick}
       className="flex w-full flex-row items-center gap-4 rounded-lg bg-gray-800 px-2 py-2 text-left text-sm text-text-light transition-all duration-200 hover:bg-gray-700 hover:shadow-md active:scale-[0.98] md:px-3 md:py-2 md:text-base"
     >
       {game.cover ? (
@@ -170,8 +192,8 @@ const GameSelectionBtn = React.memo(({ game, handleGameSelect }: { game: IGameSe
       )}
       <div className=''>
         <p className='text-sm font-semibold text-text-light md:text-base'>{game.name} - {game.platforms[0].releaseDate}</p>
-        {platform.map((p) => (
-          <Icon name={p} size={14} className='mr-3 hidden text-text-medium md:inline' />
+        {platform.map((p, index) => (
+          <Icon key={`${p}-${index}`} name={p} size={14} className='mr-3 hidden text-text-medium md:inline' />
         ))}
       </div>
     </button>
