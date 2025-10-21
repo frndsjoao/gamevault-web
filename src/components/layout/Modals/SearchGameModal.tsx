@@ -1,13 +1,14 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import ModalContainer from './Modal'
 import { GameModalContent } from './GameModal'
 import Input from '@/components/common/Input'
 import { useSearchGameQuery } from '@/hooks/queries/useSearchGame'
 import React from 'react'
 import DumbGameCover from '@/components/common/DumbGameCover'
-import Icon from '@/components/common/Icon'
-import { getPlatformIcons } from '@/utils/getPlatformIcons'
 import { IGameSearchIGDB } from '@/@types/game'
+import Select from '@/components/common/Select'
+import Icon, { IconName } from '@/components/common/Icon'
+import { platforms } from '@/utils/platforms'
 
 interface SearchGameModalProps {
   isOpen: boolean
@@ -20,39 +21,24 @@ interface SearchByNameProps {
   gameList: IGameSearchIGDB[] | undefined
   handleGameSelect: (game: IGameSearchIGDB) => void
   isLoading: boolean
+  setFilterPlatform: (arg: string) => void
+  filterPlatform: string
 }
 
 const DEBOUNCE_TIMER = 800
 
 export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProps) {
-  const [searchTerm, setSearchTerm] = useState('dave')
+  const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [debounceLoader, setDebounceLoader] = useState(false)
   const [selectedGame, setSelectedGame] = useState<IGameSearchIGDB | null>(null)
   const [isSliding, setIsSliding] = useState(false)
+  const [filterPlatform, setFilterPlatform] = useState(platforms[0].id)
 
-  // const { data: gameList, isLoading } = useSearchGameQuery({ name: debouncedSearch }, {
-  //   enabled: debouncedSearch.length >= 3
-  // })
-
-  const isLoading = false
-  const gameList = [{
-    "id": 731,
-    "name": "Grand Theft Auto IV",
-    "cover": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2lbv.jpg",
-    "platforms": [
-      {
-        "id": 9,
-        "name": "PlayStation 3",
-        "releaseDate": 2008
-      },
-      {
-        "id": 6,
-        "name": "PC (Microsoft Windows)",
-        "releaseDate": 2008
-      }
-    ]
-  }]
+  const { data: gameList, isLoading } = useSearchGameQuery({
+    name: debouncedSearch,
+    platform: filterPlatform
+  }, { enabled: debouncedSearch.length >= 3 })
 
   const handleGameSelect = useCallback((game: IGameSearchIGDB) => {
     setIsSliding(true)
@@ -106,6 +92,8 @@ export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProp
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           isLoading={isLoading || debounceLoader}
+          setFilterPlatform={setFilterPlatform}
+          filterPlatform={filterPlatform}
         />
 
         <GameModalContent
@@ -124,26 +112,34 @@ const SearchByName = React.memo(({
   searchTerm,
   gameList,
   handleGameSelect,
-  isLoading
+  isLoading,
+  filterPlatform,
+  setFilterPlatform,
 }: SearchByNameProps) => {
+
   return (
     <div className="flex h-[50vh] min-w-full flex-col p-3 md:h-[55vh] md:p-4 lg:h-[60vh] lg:p-6">
-      <div className='mb-3 md:mb-4'>
-        <Input
-          type='text'
-          onChange={(e) => setSearchTerm(e.target.value)}
-          value={searchTerm}
-          icon="search"
-          placeholder='Enter the name of the game...'
+      <div className='flex w-full flex-row items-start gap-3'>
+        <div className='flex-1'>
+          <Input
+            type='text'
+            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchTerm}
+            icon="search"
+            placeholder='Enter the name of the game...'
+            description={(searchTerm.length > 0 && searchTerm.length < 3) ? "Digite pelo menos 3 caracteres para buscar" : ""}
+          />
+        </div>
+        <Select
+          setValue={setFilterPlatform}
+          value={filterPlatform}
+          placeholder='Platform'
+          items={platforms}
+          className='w-32'
         />
-        {searchTerm.length > 0 && searchTerm.length < 3 && (
-          <p className="mt-1 text-xs text-gray-500">
-            Digite pelo menos 3 caracteres para buscar
-          </p>
-        )}
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="mt-3 flex-1 overflow-y-auto md:mt-4">
         <div className="space-y-2">
           {(isLoading && searchTerm.length >= 3) && (
             <p className="py-6 text-center text-sm text-gray-500 md:py-8 md:text-base">
@@ -164,13 +160,11 @@ const SearchByName = React.memo(({
           )}
         </div>
       </div>
-    </div>
+    </div >
   )
 })
 
 const GameSelectionBtn = React.memo(({ game, handleGameSelect }: { game: IGameSearchIGDB, handleGameSelect: (game: IGameSearchIGDB) => void }) => {
-  const platform = useMemo(() => getPlatformIcons(game.platforms), [game.platforms])
-
   const handleClick = useCallback(() => {
     handleGameSelect(game)
   }, [game, handleGameSelect])
@@ -192,9 +186,15 @@ const GameSelectionBtn = React.memo(({ game, handleGameSelect }: { game: IGameSe
       )}
       <div className=''>
         <p className='text-sm font-semibold text-text-light md:text-base'>{game.name} - {game.platforms[0].releaseDate}</p>
-        {platform.map((p, index) => (
-          <Icon key={`${p}-${index}`} name={p} size={14} className='mr-3 hidden text-text-medium md:inline' />
-        ))}
+        {game.platforms.map((p, index) => {
+          function getPlatformIcon(): IconName {
+            return `plat-${p.id}` as IconName;
+          }
+
+          return (
+            <Icon key={`${p}-${index}`} name={getPlatformIcon()} size={14} className='mr-3 inline text-text-medium' />
+          )
+        })}
       </div>
     </button>
   )

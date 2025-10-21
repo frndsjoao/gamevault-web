@@ -42,8 +42,8 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401) {
       if (!isPublicRoute) {
-        localStorage.removeItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
-        window.location.href = '/signin'
+        // localStorage.removeItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
+        // window.location.href = '/signin'
       } else {
       }
     }

@@ -7,7 +7,7 @@ export const ENDPOINTS = {
     // byId: (id: string) => `/games/${id}`,
     // deleteById: (id: string) => `/games/${id}`,
     updateById: (id: string) => `/games/${id}`,
-    searchByName: ({ name, platform }: SearchRequestProps) => `/search?search=${name}${platform ? `&platform=(${platform})` : ""}`
+    searchByName: ({ name, platform }: SearchRequestProps) => `/search?search=${name}${platform ? `&platform=${platform}` : ""}`
   },
   user: {
     signup: "/signup",

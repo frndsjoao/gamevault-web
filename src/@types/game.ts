@@ -1,10 +1,14 @@
+import { platforms } from "@/utils/platforms";
+
 export type GamePlatformType = "PC (Microsoft Windows)" | "PlayStation" | "PlayStation 2" | "PlayStation 3" | "PlayStation 4" | "PlayStation 5" | "Xbox Series X|S" | "Xbox One" | "Nintendo Switch"
 export type GameStatusType = "Backlog" | "Replay" | "Playing" | "On Hold" | "Abandoned" | "Completed"
 
+export type PlatformId = typeof platforms[number]["id"]
+
 export interface IPlatform {
-  id: number;
+  id: PlatformId;
   name: GamePlatformType;
-  releaseDate: number
+  releaseDate?: number
 }
 
 export interface IGame {
@@ -23,7 +27,7 @@ export interface IGame {
 }
 
 export interface IGameSearchIGDB {
-  id: number;
+  id: string;
   name: string;
   cover: string;
   platforms: IPlatform[]
