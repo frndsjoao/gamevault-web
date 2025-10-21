@@ -40,12 +40,9 @@ api.interceptors.response.use(
       error.config?.url?.includes(route)
     )
 
-    if (error.response?.status === 401) {
-      if (!isPublicRoute) {
-        // localStorage.removeItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
-        // window.location.href = '/signin'
-      } else {
-      }
+    if (error.response?.status === 401 && !isPublicRoute) {
+      localStorage.removeItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
+      window.location.href = '/signin'
     }
 
     const apiError = {

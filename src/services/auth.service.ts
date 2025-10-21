@@ -13,12 +13,7 @@ interface SignInResponseProps extends IUser {
 
 export const authService = {
   signin: async (credentials: SigninProps): Promise<SignInResponseProps> => {
-    try {
-      const { data } = await api.post<SignInResponseProps>(ENDPOINTS.user.signin, credentials)
-
-      return data
-    } catch (error) {
-      throw error
-    }
+    const { data } = await api.post<SignInResponseProps>(ENDPOINTS.user.signin, credentials)
+    return data
   }
 }

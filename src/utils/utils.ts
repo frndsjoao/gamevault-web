@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function showErrorToast(error: string[]) {
-  error.map(item => toast(item, {
+  error.forEach(item => toast(item, {
     type: "error"
   }))
 }

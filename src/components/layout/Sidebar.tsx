@@ -107,7 +107,7 @@ function SidebarUser() {
 
   const handleLogout = () => {
     toast("You're now logged out. See you later", { type: "default" })
-    localStorage.clear()
+    localStorage.removeItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
     clearUser()
     navigate("/signin")
   }

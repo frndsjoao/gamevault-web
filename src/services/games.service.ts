@@ -9,12 +9,7 @@ export interface SearchRequestProps {
 
 export const gamesService = {
   search: async (query: SearchRequestProps): Promise<{ games: IGameSearchIGDB[] }> => {
-    try {
-      const { data } = await api.get<{ games: IGameSearchIGDB[] }>(ENDPOINTS.games.searchByName(query))
-
-      return data
-    } catch (error) {
-      throw error
-    }
+    const { data } = await api.get<{ games: IGameSearchIGDB[] }>(ENDPOINTS.games.searchByName(query))
+    return data
   }
 }

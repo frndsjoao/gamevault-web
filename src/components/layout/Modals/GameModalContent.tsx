@@ -4,7 +4,7 @@ import Checkbox from '@/components/common/Checkbox';
 import Icon, { IconName } from '@/components/common/Icon'
 import Rating from '@/components/common/Rating';
 import { gameStatus } from '@/utils/status';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface SearchGameModalProps {
   game: IGame;
@@ -22,9 +22,21 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
   const [rating, setRating] = useState(game.rating || 0)
   const [platinum, setPlatinum] = useState(game.platinum)
   const [selectedStatus, setSelectedStatus] = useState<string>(game.status || "")
-  const platformIcon = (platform: IPlatform) => `plat-${platform.id}` as IconName;
 
+  const platformIcon = useCallback((platform: IPlatform) => `plat-${platform.id}` as IconName, []);
   const releaseDate = game.platforms.find(p => p.id === selectedPlatform)?.releaseDate;
+
+  const handlePlatformSelect = useCallback((platId: PlatformId) => {
+    setSelectedPlatform(platId);
+  }, []);
+
+  const handleStatusSelect = useCallback((status: string) => {
+    setSelectedStatus(status);
+  }, []);
+
+  const handlePlatinumChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setPlatinum(e.target.checked);
+  }, []);
 
   useEffect(() => {
     if (platform && platform !== "all") {
@@ -34,15 +46,17 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
 
   return (
     <div className="flex min-w-full flex-col items-center gap-3 p-2 md:gap-4 md:p-3 lg:p-4">
-      <div className='flex w-full flex-row items-center gap-3 md:gap-6'>
+      <div className='flex w-full flex-row gap-3 md:gap-6'>
         <img
           src={game.cover}
           alt={game.name}
-          className="max-h-52 w-auto rounded-lg object-cover shadow-lg md:max-h-72 lg:max-h-96"
+          className="max-h-52 w-auto rounded-lg object-cover shadow-lg md:max-h-72 lg:max-h-80"
         />
-        <div className='w-full space-y-6 text-start'>
+        <div className='w-full space-y-4 text-start'>
           <h2 className="text-lg font-bold text-text-light md:text-xl lg:text-2xl">{game.name}</h2>
           <span className='text-sm text-text-light'>{releaseDate}</span>
+
+          {/* <p className='text-xs'>{game.storyline}</p> */}
 
           <div className='my-3 flex flex-row items-center gap-2'>
             {game.platforms.map(plat => {
@@ -50,7 +64,7 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
               return (
                 <button
                   key={plat.id}
-                  onClick={() => !isActive && setSelectedPlatform(plat.id)}
+                  onClick={() => !isActive && handlePlatformSelect(plat.id)}
                   disabled={isActive}
                   className={`${isActive ? "border-btn-light bg-btn-light cursor-not-allowed" : "border-border hover:bg-gray-700 cursor-pointer"} rounded-md border p-2 md:p-3 transition-colors`}
                   aria-label={`Selecionar plataforma ${plat.name}`}
@@ -67,7 +81,7 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
             <div className='mt-6'>
               <Checkbox
                 checked={platinum}
-                onChange={(e) => setPlatinum(e.target.checked)}
+                onChange={handlePlatinumChange}
                 label="Platinum"
                 icon="platinum"
               />
@@ -84,7 +98,7 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
             return (
               <button
                 key={status}
-                onClick={() => !isStatusActive && setSelectedStatus(status)}
+                onClick={() => !isStatusActive && handleStatusSelect(status)}
                 disabled={isStatusActive}
                 className={`${isStatusActive
                   ? "border-btn-light bg-btn-light text-text-dark cursor-not-allowed"
@@ -99,11 +113,7 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
         </div>
       </div>
 
-      {selectedStatus === "Completed" && (
-        <div></div>
-      )}
-
-      <div className='flex w-full flex-row items-end'>
+      <div className='flex w-full flex-1 flex-row items-end'>
         <Button label='Save' className='ml-auto max-w-44' />
       </div>
     </div>

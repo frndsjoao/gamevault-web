@@ -14,21 +14,26 @@ export default function Dashboard() {
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <MainContent setSidebarOpen={setSidebarOpen}>
-        <Carousel title="My Games">
-          {array.map(card => (
-            <GameCard key={card} />
-          ))}
-        </Carousel>
-        <Carousel title="My Games">
-          {array.map(card => (
-            <GameCard key={card} />
-          ))}
-        </Carousel>
-        <Carousel title="My Games">
-          {array.map(card => (
-            <GameCard key={card} />
-          ))}
-        </Carousel>
+        {false && (
+          <>
+            <Carousel title="My Games">
+              {array.map(card => (
+                <GameCard key={card} />
+              ))}
+            </Carousel>
+            <Carousel title="My Games">
+              {array.map(card => (
+                <GameCard key={card} />
+              ))}
+            </Carousel>
+            <Carousel title="My Games">
+              {array.map(card => (
+                <GameCard key={card} />
+              ))}
+            </Carousel>
+          </>
+        )}
+
       </MainContent>
 
       {sidebarOpen && (

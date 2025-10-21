@@ -8,7 +8,11 @@ export function useAppNavigate() {
   function appNavigate(delta: number): void;
 
   function appNavigate(to: AppRoutes | number, options?: NavigateOptions) {
-    navigate(to as any, options);
+    if (typeof to === 'number') {
+      navigate(to);
+    } else {
+      navigate(to, options);
+    }
   }
 
   return appNavigate;
