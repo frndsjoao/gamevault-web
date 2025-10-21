@@ -58,13 +58,12 @@ export default function GameCard() {
 }
 
 function StatusOptions({ activeColumn, active }: StatusOptionsProps) {
-  const status = ["Backlog", "Playing", "On Hold", "Completed"]
+  const status = ["Backlog", "Playing", "Completed"]
 
   const filteredStatusByColumn = () => {
     if (activeColumn === "Completed") return [];
 
     return status.filter((item) => {
-      if (activeColumn === "Backlog") return item !== "On Hold";
       if (activeColumn === "Playing") return item !== "Backlog";
       return true;
     });

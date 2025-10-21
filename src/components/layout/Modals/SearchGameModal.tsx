@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
 import ModalContainer from './Modal'
-import { GameModalContent } from './GameModal'
 import Input from '@/components/common/Input'
 import { useSearchGameQuery } from '@/hooks/queries/useSearchGame'
 import React from 'react'
@@ -9,6 +8,7 @@ import { IGameSearchIGDB } from '@/@types/game'
 import Select from '@/components/common/Select'
 import Icon, { IconName } from '@/components/common/Icon'
 import { platforms } from '@/utils/platforms'
+import { GameModalContent } from './GameModalContent'
 
 interface SearchGameModalProps {
   isOpen: boolean
@@ -95,13 +95,9 @@ export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProp
           setFilterPlatform={setFilterPlatform}
           filterPlatform={filterPlatform}
         />
-
-        <GameModalContent
-          game={{
-            image: selectedGame?.cover ?? undefined,
-            name: selectedGame?.name ?? undefined
-          }}
-        />
+        {selectedGame && (
+          <GameModalContent game={selectedGame} platform={filterPlatform} />
+        )}
       </div>
     </ModalContainer>
   )

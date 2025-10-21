@@ -1,10 +1,11 @@
+import { IGame } from '@/@types/game'
 import ModalContainer from './Modal'
+import { GameModalContent } from './GameModalContent'
 
-interface Game { name: string | undefined; image: string | undefined }
 interface GameModalProps {
   isOpen: boolean
   onClose: () => void
-  game: Game
+  game: IGame
 }
 
 export default function GameModal({ isOpen, onClose, game }: GameModalProps) {
@@ -15,15 +16,4 @@ export default function GameModal({ isOpen, onClose, game }: GameModalProps) {
   )
 }
 
-export function GameModalContent({ game }: { game: Game }) {
-  return (
-    <div className="flex min-w-full flex-col items-center gap-3 p-3 md:gap-4 md:p-4 lg:p-6">
-      <img
-        src={game.image}
-        alt={game.name}
-        className="max-h-48 w-auto rounded-lg object-cover shadow-lg md:max-h-72 lg:max-h-96"
-      />
-      <h2 className="text-center text-lg font-bold text-text-light md:text-xl lg:text-2xl">{game.name}</h2>
-    </div>
-  )
-}
+
