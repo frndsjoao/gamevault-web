@@ -46,7 +46,7 @@ export default function ModalContainer({ isOpen, onClose, goBack, title, childre
       onClick={onClose}
     >
       <div
-        className="relative max-h-[85vh] w-full max-w-2xl transform overflow-hidden rounded-lg bg-gray-900 p-4 shadow-2xl transition-all duration-500 ease-out animate-in fade-in slide-in-from-bottom-4 md:max-h-[80vh] md:rounded-xl md:p-6"
+        className="relative h-auto w-full max-w-2xl transform overflow-hidden overflow-y-auto rounded-lg bg-gray-900 p-4 shadow-2xl transition-all duration-500 ease-out animate-in fade-in slide-in-from-bottom-4 md:rounded-xl md:p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className='mb-2 flex flex-row items-center justify-between gap-2 md:mb-0 md:gap-3'>

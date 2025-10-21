@@ -77,11 +77,11 @@ export default function SearchGameModal({ isOpen, onClose }: SearchGameModalProp
     <ModalContainer
       isOpen={isOpen}
       onClose={handleClose}
-      goBack={!!selectedGame ? handleBackToSearch : undefined}
+      goBack={selectedGame ? handleBackToSearch : undefined}
       title="Search game:"
     >
       <div
-        className="flex h-full transition-transform duration-300 ease-in-out"
+        className="flex h-auto transition-transform duration-300 ease-in-out"
         style={{
           transform: isSliding ? 'translateX(-100%)' : 'translateX(0)',
         }}
@@ -114,7 +114,7 @@ const SearchByName = React.memo(({
 }: SearchByNameProps) => {
 
   return (
-    <div className="flex h-[50vh] min-w-full flex-col p-3 md:h-[55vh] md:p-4 lg:h-[60vh] lg:p-6">
+    <div className="flex h-[50vh] min-w-full flex-col p-3 md:p-4 lg:p-6">
       <div className='flex w-full flex-row items-start gap-3'>
         <div className='flex-1'>
           <Input
