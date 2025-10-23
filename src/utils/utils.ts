@@ -6,8 +6,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function showErrorToast(error: string[]) {
-  error.forEach(item => toast(item, {
+export function showErrorToast(error: string | string[]) {
+  const errors = Array.isArray(error) ? error : [error]
+  errors.forEach(item => toast(item, {
     type: "error"
   }))
 }

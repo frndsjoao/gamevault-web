@@ -3,7 +3,7 @@ import Icon, { IconName } from "./Icon";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  icon: IconName
+  icon?: IconName
 }
 
 export default function Checkbox(props: InputProps) {

@@ -1,61 +1,88 @@
-import { useState, FormEvent } from 'react';
-import { BaseView, Button, Card, Checkbox, Input } from '../components';
-import Link from '../components/common/Link';
-import { useSignInQuery } from '@/hooks/mutations/useAuth';
+import { BaseView, Button, Card, Checkbox, Input } from "../components"
+import Link from "../components/common/Link"
+import { useSignInQuery } from "@/hooks/mutations/useAuth"
+import { Controller, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { SignInData, signInschema } from "@/schemas/authSchema"
+import { showErrorToast } from "@/utils/utils"
 
 export default function Login() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [showPassword, setShowPassword] = useState(false)
+  const { control, handleSubmit, watch } = useForm({
+    resolver: zodResolver(signInschema),
+    defaultValues: { email: "", password: "", showPassword: false },
+    mode: "onChange",
+  })
 
-  const { mutate: signIn, isPending } = useSignInQuery();
+  const showPassword = watch("showPassword")
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    signIn({ email, password })
-  };
+  const { mutate: signIn, isPending, error } = useSignInQuery()
+
+  const onSubmit = async (data: SignInData) => {
+    signIn({ email: data.email, password: data.password })
+  }
+
+  const onError = () => {
+    showErrorToast(error?.message ?? "")
+  }
 
   return (
     <BaseView>
-      <Card className='max-w-md'>
-        <h2 className='mb-2 text-xl font-semibold text-text-light'>
+      <Card className="max-w-md">
+        <h2 className="mb-2 text-xl font-semibold text-text-light">
           Login to your account
         </h2>
-        <p className='mb-6 text-sm font-normal text-text-medium'>
+        <p className="mb-6 text-sm font-normal text-text-medium">
           Enter your email below to login to your account
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <Input
-            required
-            type='email'
-            label='E-mail'
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            icon="user"
+        <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-5">
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="email"
+                label="E-mail"
+                onChange={field.onChange}
+                value={field.value}
+                icon="user"
+              />
+            )}
           />
+
           <div>
-            <Input
-              required
-              type={showPassword ? "text" : 'password'}
-              label='Password'
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              icon={showPassword ? "eye" : "eyeOff"}
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  label="Password"
+                  onChange={field.onChange}
+                  value={field.value}
+                  icon={showPassword ? "eye" : "eyeOff"}
+                />
+              )}
             />
-            <Checkbox
-              checked={showPassword}
-              onChange={(e) => setShowPassword(e.target.checked)}
-              label={`${showPassword ? "Hide" : "Show"} your password`}
+            <Controller
+              name="showPassword"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  checked={field.value}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                  label={`${showPassword ? "Hide" : "Show"} your password`}
+                />
+              )}
             />
           </div>
 
-          <div className='flex flex-col items-center border-t-[1px] border-t-text-medium pt-4'>
-            <Button type="submit" label='Login' isLoading={isPending} />
-            <Link label='Criar conta' />
+          <div className="flex flex-col items-center border-t-[1px] border-t-text-medium pt-4">
+            <Button type="submit" label="Login" isLoading={isPending} />
+            <Link label="Criar conta" />
           </div>
         </form>
       </Card>
     </BaseView>
-  );
+  )
 }
