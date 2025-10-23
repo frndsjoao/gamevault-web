@@ -9,10 +9,20 @@ import DatePicker from "@/components/common/DatePicker"
 import { platforms } from "@/utils/platforms"
 import { IconName } from "@/components/common/Icon"
 import { parseSchemaErrors } from "@/utils/parseSchemaError"
+import { useEffect, useState } from "react"
+import { storage } from "@/utils/localStorage"
+import { useAppNavigate } from "@/hooks/useNavigation"
 
 export default function SignUp() {
-  const { control, handleSubmit } = useForm({
+  const navigate = useAppNavigate()
+  const [email, setEmail] = useState("")
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
     resolver: zodResolver(signUpschema),
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -21,36 +31,32 @@ export default function SignUp() {
       preferredPlatform: "",
       confirmPassword: "",
     },
-    mode: "onChange",
   })
 
-  const { mutate: signUp, isPending, error } = useSignUpQuery()
+  const { mutate: signUp, isPending, error, isSuccess } = useSignUpQuery()
 
   const onSubmit = async (data: SignUpData) => {
     const formatDate = (date?: Date) => date?.toISOString().split("T")[0] ?? ""
 
-    const request = {
-      email: data.email,
-      password: data.password,
-      birthdate: formatDate(data.birthdate),
-      name: data.name,
-      preferredPlatform: data.preferredPlatform,
-    }
-
-    console.log(request)
-    // signUp({
-    //   email: data.email,
-    //   password: data.password,
-    //   birthdate: formatDate(data.birthdate),
-    //   name: data.name,
-    //   preferredPlatform: data.preferredPlatform,
-    // })
+    signUp({ ...data, birthdate: formatDate(data.birthdate) })
   }
 
   const onError = (err: any) => {
     console.log(parseSchemaErrors(err))
     showErrorToast(err ? parseSchemaErrors(err) : error?.message || "")
   }
+
+  console.log(email)
+
+  const signIn = () => {
+    navigate("/signin")
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      storage.setEmail(email)
+    }
+  }, [isSuccess, email])
 
   return (
     <BaseView>
@@ -69,7 +75,7 @@ export default function SignUp() {
             render={({ field }) => (
               <Input
                 type="text"
-                label="Name"
+                label="Name:"
                 onChange={field.onChange}
                 value={field.value}
                 icon="user"
@@ -92,15 +98,21 @@ export default function SignUp() {
           <Controller
             name="email"
             control={control}
-            render={({ field }) => (
-              <Input
-                type="email"
-                label="E-mail"
-                onChange={field.onChange}
-                value={field.value}
-                icon="at"
-              />
-            )}
+            render={({ field }) => {
+              function onChange(e: any) {
+                field.onChange(e)
+                setEmail(e.target.value)
+              }
+              return (
+                <Input
+                  type="email"
+                  label="E-mail:"
+                  onChange={onChange}
+                  value={field.value}
+                  icon="at"
+                />
+              )
+            }}
           />
           <Controller
             name="password"
@@ -108,7 +120,7 @@ export default function SignUp() {
             render={({ field }) => (
               <Input
                 type="password"
-                label="Password"
+                label="Password:"
                 onChange={field.onChange}
                 value={field.value}
                 icon="key"
@@ -121,7 +133,7 @@ export default function SignUp() {
             render={({ field }) => (
               <Input
                 type="password"
-                label="Password confirmation"
+                label="Password confirmation:"
                 onChange={field.onChange}
                 value={field.value}
                 icon="key"
@@ -135,7 +147,7 @@ export default function SignUp() {
             render={({ field }) => (
               <div className="my-3">
                 <label className="mb-1 text-sm font-normal text-text-light">
-                  Select your favorite platform
+                  Select your favorite platform:
                 </label>
                 <div className="my-3 flex flex-row items-center gap-2">
                   {platforms
@@ -166,10 +178,17 @@ export default function SignUp() {
           />
 
           <div className="flex flex-col items-center border-t-[1px] border-t-text-medium pt-4">
-            <Button type="submit" label="Login" isLoading={isPending} />
-            <Link label="Criar conta" />
+            <Button
+              type="submit"
+              label="Create account"
+              isLoading={isPending}
+              disabled={!isValid}
+            />
           </div>
         </form>
+        <div className="flex justify-center">
+          <Link label="Sign in" onClick={signIn} />
+        </div>
       </Card>
     </BaseView>
   )

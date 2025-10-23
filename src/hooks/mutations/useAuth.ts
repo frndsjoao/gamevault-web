@@ -5,6 +5,7 @@ import { IApiError } from "@/@types/apiError"
 import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
+import { storage } from "@/utils/localStorage"
 
 export const useSignInQuery = () => {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ export const useSignInQuery = () => {
     mutationFn: authService.signin,
     onSuccess: (data) => {
       const { accessToken, ...rest } = data
-      localStorage.setItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN, accessToken)
+      storage.setToken(accessToken)
       setUser({ ...rest })
 
       navigate("/dashboard")

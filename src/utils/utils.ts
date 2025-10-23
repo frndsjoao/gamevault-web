@@ -8,11 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 
 export function showErrorToast(error: string | string[]) {
   const errors = Array.isArray(error) ? error : [error]
-  errors.forEach(item => toast(item, {
-    type: "error"
-  }))
-}
-
-export function getUserToken() {
-  return localStorage.getItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
+  errors.forEach((item) =>
+    toast(item, {
+      type: "error",
+    }),
+  )
 }

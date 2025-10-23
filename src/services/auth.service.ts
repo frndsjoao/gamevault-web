@@ -30,7 +30,7 @@ export const authService = {
   },
   signup: async (userData: SignupProps): Promise<{ success: boolean }> => {
     const { data } = await api.post<{ success: boolean }>(
-      ENDPOINTS.user.signin,
+      ENDPOINTS.user.signup,
       userData,
     )
     return data

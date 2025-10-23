@@ -1,5 +1,5 @@
-import { getUserToken } from '@/utils/utils'
-import axios, { AxiosError } from 'axios'
+import { storage } from "@/utils/localStorage"
+import axios, { AxiosError } from "axios"
 
 type ApiErrorResponse = {
   errors?: string[] | string
@@ -8,21 +8,21 @@ type ApiErrorResponse = {
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_DEVURL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   timeout: 10_000,
 })
 
-const publicRoutes = ['/signin', '/signup']
+const publicRoutes = ["/signin", "/signup"]
 
 api.interceptors.request.use(
   (config) => {
     const isPublicRoute = publicRoutes.some((route) =>
-      config.url?.includes(route)
+      config.url?.includes(route),
     )
 
     if (!isPublicRoute) {
-      const token = getUserToken()
+      const token = storage.getToken()
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
@@ -30,26 +30,26 @@ api.interceptors.request.use(
 
     return config
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 )
 
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiErrorResponse>) => {
     const isPublicRoute = publicRoutes.some((route) =>
-      error.config?.url?.includes(route)
+      error.config?.url?.includes(route),
     )
 
     if (error.response?.status === 401 && !isPublicRoute) {
-      localStorage.removeItem(import.meta.env.VITE_LOCALSTORAGE_TOKEN)
-      window.location.href = '/signin'
+      storage.removeToken()
+      window.location.href = "/signin"
     }
 
     const apiError = {
-      message: error.response?.data.errors || ['Erro na requisição'],
+      message: error.response?.data.errors || ["Erro na requisição"],
       statusCode: error.response?.status,
     }
 
     return Promise.reject(apiError)
-  }
+  },
 )

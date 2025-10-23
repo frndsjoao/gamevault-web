@@ -69,40 +69,11 @@ export default function DatePicker({
         >
           <Calendar
             mode="single"
+            captionLayout="dropdown"
             selected={date}
             onSelect={handleSelect}
-            className="rounded-md bg-bg-dark text-text-light"
-            classNames={{
-              months:
-                "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-              month: "space-y-4",
-              month_caption:
-                "flex justify-center pt-1 relative items-center text-text-light",
-              caption_label: "text-sm font-medium text-text-light",
-              nav: "space-x-1 flex items-center",
-              button_previous:
-                "absolute left-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 hover:bg-gray-700 rounded-md",
-              button_next:
-                "absolute right-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 hover:bg-gray-700 rounded-md",
-              table: "w-full border-collapse space-y-1",
-              weekdays: "flex",
-              weekday:
-                "text-text-medium rounded-md w-9 font-normal text-[0.8rem]",
-              week: "flex w-full mt-2",
-              day: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-              day_button:
-                "h-9 w-9 p-0 font-normal text-text-light hover:bg-gray-700 hover:text-text-light rounded-md transition-colors aria-selected:opacity-100 aria-selected:bg-btn-light aria-selected:text-text-dark aria-selected:hover:bg-btn-medium aria-selected:hover:text-text-dark",
-              range_end: "day-range-end",
-              selected:
-                "bg-btn-light text-text-dark hover:bg-btn-medium hover:text-text-dark focus:bg-btn-light focus:text-text-dark",
-              today: "bg-btn-dark text-text-light border border-border",
-              outside:
-                "day-outside text-text-medium opacity-50 aria-selected:bg-accent/50 aria-selected:text-text-medium aria-selected:opacity-30",
-              disabled: "text-text-medium opacity-50",
-              range_middle:
-                "aria-selected:bg-accent aria-selected:text-accent-foreground",
-              hidden: "invisible",
-            }}
+            disabled={(date) => date > new Date()}
+            className="rounded-md bg-bg-dark p-3 text-text-light"
           />
         </PopoverContent>
       </Popover>

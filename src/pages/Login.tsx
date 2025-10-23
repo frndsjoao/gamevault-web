@@ -6,12 +6,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInData, signInschema } from "@/schemas/authSchema"
 import { showErrorToast } from "@/utils/utils"
 import { useAppNavigate } from "@/hooks/useNavigation"
+import { storage } from "@/utils/localStorage"
 
 export default function Login() {
   const navigate = useAppNavigate()
+  const emailStorage = storage.getEmail()
   const { control, handleSubmit, watch } = useForm({
     resolver: zodResolver(signInschema),
-    defaultValues: { email: "", password: "", showPassword: false },
+    defaultValues: {
+      email: emailStorage ?? "",
+      password: "",
+      showPassword: false,
+    },
     mode: "onChange",
   })
 
