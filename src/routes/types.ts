@@ -1,4 +1,1 @@
-export type AppRoutes =
-  | "/"
-  | "/signin"
-  | "/dashboard"
+export type AppRoutes = "/" | "/signin" | "/signup" | "/dashboard"

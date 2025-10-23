@@ -5,8 +5,10 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignInData, signInschema } from "@/schemas/authSchema"
 import { showErrorToast } from "@/utils/utils"
+import { useAppNavigate } from "@/hooks/useNavigation"
 
 export default function Login() {
+  const navigate = useAppNavigate()
   const { control, handleSubmit, watch } = useForm({
     resolver: zodResolver(signInschema),
     defaultValues: { email: "", password: "", showPassword: false },
@@ -23,6 +25,10 @@ export default function Login() {
 
   const onError = () => {
     showErrorToast(error?.message ?? "")
+  }
+
+  const createAccount = () => {
+    navigate("/signup")
   }
 
   return (
@@ -79,7 +85,7 @@ export default function Login() {
 
           <div className="flex flex-col items-center border-t-[1px] border-t-text-medium pt-4">
             <Button type="submit" label="Login" isLoading={isPending} />
-            <Link label="Criar conta" />
+            <Link type="button" label="Criar conta" onClick={createAccount} />
           </div>
         </form>
       </Card>

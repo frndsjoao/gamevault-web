@@ -17,8 +17,17 @@ import {
   Trophy,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react";
-import { BsNintendoSwitch, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
+  ChevronDown,
+  AtSign,
+  KeyRound,
+  Calendar1,
+} from "lucide-react"
+import {
+  BsNintendoSwitch,
+  BsPlaystation,
+  BsWindows,
+  BsXbox,
+} from "react-icons/bs"
 
 export const icons = {
   user: User,
@@ -39,25 +48,34 @@ export const icons = {
   platinum: Trophy,
   "chevron-left": ChevronLeft,
   "chevron-right": ChevronRight,
+  "chevron-down": ChevronDown,
+  at: AtSign,
+  key: KeyRound,
+  calendar: Calendar1,
 
   "plat-playstation": BsPlaystation,
   "plat-nintendo": BsNintendoSwitch,
   "plat-xbox": BsXbox,
   "plat-pc": BsWindows,
-};
+}
 
 interface IconProps {
-  name: IconName;
-  size?: number;
-  className?: string;
+  name: IconName
+  size?: number
+  className?: string
 }
 
 export default function Icon({ name, size = 20, className }: IconProps) {
-  const IconComponent = name ? icons[name] : null;
+  const IconComponent = name ? icons[name] : null
 
-  if (!IconComponent) return null;
+  if (!IconComponent) return null
 
-  return <IconComponent size={size} className={`shrink-0 text-text-dark ${className}`} />;
+  return (
+    <IconComponent
+      size={size}
+      className={`shrink-0 text-text-dark ${className}`}
+    />
+  )
 }
 
-export type IconName = keyof typeof icons;
+export type IconName = keyof typeof icons
