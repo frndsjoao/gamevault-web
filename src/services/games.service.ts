@@ -1,3 +1,4 @@
+import { IDashboard } from "@/@types/dashboard"
 import { IGame, IGameSearchIGDB } from "@/@types/game"
 import { api } from "@/services/api/client"
 import { ENDPOINTS } from "@/services/api/endpoints"
@@ -13,6 +14,11 @@ export interface UpdateGameRequestProps {
 }
 
 export const gamesService = {
+  dashboard: async (): Promise<IDashboard> => {
+    const { data } = await api.get<IDashboard>(ENDPOINTS.games.dashboard)
+    return data
+  },
+
   search: async (
     query: SearchRequestProps,
   ): Promise<{ games: IGameSearchIGDB[] }> => {

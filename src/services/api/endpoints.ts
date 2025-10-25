@@ -2,6 +2,7 @@ import { SearchRequestProps } from "@/services/games.service"
 
 export const ENDPOINTS = {
   games: {
+    dashboard: "/dashboard",
     list: "/games",
     add: "/games",
     // byId: (id: string) => `/games/${id}`,
