@@ -42,11 +42,8 @@ export default function SignUp() {
   }
 
   const onError = (err: any) => {
-    console.log(parseSchemaErrors(err))
     showErrorToast(err ? parseSchemaErrors(err) : error?.message || "")
   }
-
-  console.log(email)
 
   const signIn = () => {
     navigate("/signin")

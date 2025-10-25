@@ -9,14 +9,21 @@ import { gameStatus } from "@/utils/status"
 import { useCallback } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { showErrorToast } from "@/utils/utils"
+import { useAddGameQuery, useUpdateGameQuery } from "@/hooks/mutations/useGames"
+import { formatDateToString, showErrorToast } from "@/utils/utils"
+import { parseSchemaErrors } from "@/utils/parseSchemaError"
 
 interface SearchGameModalProps {
   game: IGame
   platform?: PlatformId
+  update?: boolean
 }
 
-export function GameModalContent({ game, platform }: SearchGameModalProps) {
+export function GameModalContent({
+  game,
+  platform,
+  update,
+}: SearchGameModalProps) {
   const getInitialPlatform = (): PlatformId => {
     if (platform && platform !== "all") return platform
     if (game.selectedPlatform) return game.selectedPlatform
@@ -38,6 +45,9 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
   const selectedStatus = watch("status")
   const selectedPlatform = watch("platform")
 
+  const addGame = useAddGameQuery()
+  // const updateGame = useUpdateGameQuery()
+
   const platformIcon = useCallback(
     (platform: IPlatform) => `plat-${platform.id}` as IconName,
     [],
@@ -47,13 +57,32 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
   )?.releaseDate
 
   const onSubmit = async (data: GameFormData) => {
-    console.log("✅ Form válido! Dados:", data)
-    // Aqui você chama sua mutation do React Query
-    // await createGameMutation.mutate(data)
+    const gameData = {
+      name: game.name,
+      cover: game.cover,
+      platforms: game.platforms,
+      completedAt: formatDateToString(data.completedDate),
+      igdbId: game.id,
+      platinum: data.platinum,
+      rating: data.rating,
+      selectedPlatform: data.platform,
+      status: data.status,
+    }
+
+    if (update) {
+      // updateGame({})
+    } else {
+      addGame.mutate(gameData)
+    }
   }
 
-  const onError = () => {
-    // showErrorToast(error?.message ?? "")
+  const onError = (err: any) => {
+    showErrorToast(
+      parseSchemaErrors(err) ||
+        addGame.error?.message ||
+        // updateGame.error?.message ||
+        "",
+    )
   }
 
   return (
@@ -189,7 +218,11 @@ export function GameModalContent({ game, platform }: SearchGameModalProps) {
         </div>
       </div>
 
-      <Button label="Save" className="ml-auto w-full md:max-w-44" />
+      <Button
+        label="Save"
+        className="ml-auto w-full md:max-w-44"
+        isLoading={addGame.isPending}
+      />
     </form>
   )
 }

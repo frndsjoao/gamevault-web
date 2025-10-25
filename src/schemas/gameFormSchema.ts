@@ -1,4 +1,5 @@
 import { platforms } from "@/utils/platforms"
+import { gameStatus } from "@/utils/status"
 import { z } from "zod"
 
 export const gameFormSchema = z
@@ -18,12 +19,9 @@ export const gameFormSchema = z
 
     platinum: z.boolean().default(false),
 
-    status: z.enum(
-      ["Backlog", "Replay", "Playing", "On Hold", "Abandoned", "Completed"],
-      {
-        error: "Please select a status.",
-      },
-    ),
+    status: z.enum(gameStatus, {
+      error: "Please select a status.",
+    }),
 
     completedDate: z.date().optional(),
   })
