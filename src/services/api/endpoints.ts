@@ -1,9 +1,11 @@
+import { GameStatusType } from "@/@types/game"
 import { SearchRequestProps } from "@/services/games.service"
 
 export const ENDPOINTS = {
   games: {
     dashboard: "/dashboard",
-    list: "/games",
+    list: (filter: GameStatusType) =>
+      `/games${filter ? `?filter=${filter}` : ""}`,
     add: "/games",
     // byId: (id: string) => `/games/${id}`,
     deleteById: (id: string) => `/games/${id}`,

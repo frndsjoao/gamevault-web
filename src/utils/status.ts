@@ -1,15 +1,28 @@
 import { GameStatusType } from "@/@types/game"
 
-export const gameStatus: GameStatusType[] = ["Backlog", "Replay", "Playing", "Abandoned", "Completed"]
+export const gameStatus: GameStatusType[] = [
+  "Backlog",
+  "Replay",
+  "Playing",
+  "Abandoned",
+  "Finished",
+]
 
-export const getFilteredStatus = (activeColumn?: "Playing" | "Backlog" | "Completed"): GameStatusType[] => {
-  if (activeColumn === "Completed") return [];
+export const getFilteredStatus = (
+  activeColumn?: GameStatusType,
+  activeStatus?: GameStatusType,
+): GameStatusType[] => {
+  const quickStatus: GameStatusType[] = ["Backlog", "Playing", "Finished"]
 
-  const quickStatus: GameStatusType[] = ["Backlog", "Playing", "Completed"]
+  console.log(activeColumn, activeStatus)
 
-  if (activeColumn === "Playing") {
-    return quickStatus.filter(item => item !== "Backlog")
-  }
+  if (activeColumn === "Finished") return ["Finished", "Playing", "Replay"]
+  if (activeColumn === "Backlog" && activeStatus === "Backlog")
+    return ["Backlog", "Playing", "Finished"]
+  if (activeColumn === "Backlog" && activeStatus === "Replay")
+    return ["Replay", "Playing", "Finished"]
+
+  if (activeColumn === "Playing") return ["Playing", "Finished"]
 
   return quickStatus
 }

@@ -8,6 +8,7 @@ import Login from "../pages/Login"
 import Dashboard from "../pages/Dashboard"
 import PrivateRoute from "./PrivateRoute"
 import SignUp from "@/pages/SignUp"
+import Gamelist from "@/pages/Gamelist"
 
 export default function Router() {
   return (
@@ -19,6 +20,10 @@ export default function Router() {
         <Route
           path="/dashboard"
           element={<PrivateRoute element={<Dashboard />} />}
+        />
+        <Route
+          path="/games"
+          element={<PrivateRoute element={<Gamelist />} />}
         />
       </Routes>
     </RouterDom>

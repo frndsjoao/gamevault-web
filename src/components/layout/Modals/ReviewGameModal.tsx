@@ -39,13 +39,13 @@ export default function ReviewGameModal({
 
   const handleConfirm = async (data: CompleteGameFormData) => {
     const today = new Date()
-    const completedStatus: GameStatusType = "Completed"
+    const finishedStatus: GameStatusType = "Finished"
     const gameData = {
       ...game,
-      completedAt: formatDateToString(today),
+      finishedAt: formatDateToString(today),
       platinum: data.platinum,
       rating: data.rating,
-      status: completedStatus,
+      status: finishedStatus,
     }
 
     updateGame({ id: game.id ?? 0, game: gameData })
@@ -55,11 +55,11 @@ export default function ReviewGameModal({
 
   const handleConfirmWithoutReview = async () => {
     const today = new Date()
-    const completedStatus: GameStatusType = "Completed"
+    const finishedStatus: GameStatusType = "Finished"
     const gameData = {
       ...game,
-      completedAt: formatDateToString(today),
-      status: completedStatus,
+      finishedAt: formatDateToString(today),
+      status: finishedStatus,
     }
 
     updateGame({ id: game.id ?? 0, game: gameData })

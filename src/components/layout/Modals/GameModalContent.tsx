@@ -37,7 +37,7 @@ export function GameModalContent({
       rating: game.rating || 0,
       platinum: game.platinum || false,
       status: (game.status as GameFormData["status"]) || "Backlog",
-      completedDate: undefined,
+      finishedDate: undefined,
     },
     mode: "onChange",
   })
@@ -61,7 +61,7 @@ export function GameModalContent({
       name: game.name,
       cover: game.cover,
       platforms: game.platforms,
-      completedAt: formatDateToString(data.completedDate),
+      finishedAt: formatDateToString(data.finishedDate),
       igdbId: game.id,
       platinum: data.platinum,
       rating: data.rating,
@@ -199,10 +199,10 @@ export function GameModalContent({
             />
           </div>
 
-          {selectedStatus === "Completed" && (
+          {selectedStatus === "Finished" && (
             <div className="animate-fadeIn">
               <Controller
-                name="completedDate"
+                name="finishedDate"
                 control={control}
                 render={({ field }) => (
                   <DatePicker

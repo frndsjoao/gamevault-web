@@ -23,18 +23,18 @@ export const gameFormSchema = z
       error: "Please select a status.",
     }),
 
-    completedDate: z.date().optional(),
+    finishedDate: z.date().optional(),
   })
   .refine(
     (data) => {
-      if (data.status === "Completed" && !data.completedDate) {
+      if (data.status === "Finished" && !data.finishedDate) {
         return false
       }
       return true
     },
     {
-      message: "Completion date is required when game is completed",
-      path: ["completedDate"],
+      message: "Completion date is required when game is finished",
+      path: ["finishedDate"],
     },
   )
 

@@ -27,19 +27,15 @@ export const useUpdateGameQuery = () => {
   return useMutation({
     mutationFn: gamesService.update,
     onMutate: async ({ id, game }: UpdateGameRequestProps) => {
-      // Cancela queries em andamento para evitar conflitos
       await queryClient.cancelQueries({ queryKey: ["dashboard"] })
 
-      // Snapshot do estado anterior para rollback em caso de erro
       const previousDashboard = queryClient.getQueryData<IDashboard>([
         "dashboard",
       ])
 
-      // Atualiza otimisticamente o cache
       queryClient.setQueryData<IDashboard>(["dashboard"], (old) => {
         if (!old) return old
 
-        // Helper para atualizar ou remover o jogo de uma coluna
         const updateColumn = (
           games: IGame[],
           shouldInclude: boolean,
@@ -51,7 +47,7 @@ export const useUpdateGameQuery = () => {
         return {
           backlog: updateColumn(old.backlog, game.status === "Backlog"),
           playing: updateColumn(old.playing, game.status === "Playing"),
-          completed: updateColumn(old.completed, game.status === "Completed"),
+          finished: updateColumn(old.finished, game.status === "Finished"),
         }
       })
 
@@ -61,14 +57,12 @@ export const useUpdateGameQuery = () => {
       toast("Game updated successfully!", { type: "success" })
     },
     onError: (error: IApiError, _variables, context) => {
-      // Reverte para o estado anterior em caso de erro
       if (context?.previousDashboard) {
         queryClient.setQueryData(["dashboard"], context.previousDashboard)
       }
       showErrorToast(error.message)
     },
     onSettled: () => {
-      // Garante sincronização eventual com o servidor
       queryClient.invalidateQueries({ queryKey: ["dashboard"] })
     },
   })

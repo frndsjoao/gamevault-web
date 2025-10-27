@@ -11,6 +11,8 @@ export default function Dashboard() {
 
   const { data: games, isLoading } = useDashboardQuery()
 
+  console.log(games)
+
   return (
     <div className="flex flex-row overflow-x-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -25,21 +27,21 @@ export default function Dashboard() {
             {games?.playing && games?.playing.length > 0 && (
               <Carousel title="Now playing">
                 {games.playing.map((game) => (
-                  <GameCard key={game.id} game={game} />
+                  <GameCard key={game.id} game={game} activeColumn="Playing" />
                 ))}
               </Carousel>
             )}
             {games?.backlog && games?.backlog.length > 0 && (
               <Carousel title="My backlog">
                 {games.backlog.map((game) => (
-                  <GameCard key={game.id} game={game} />
+                  <GameCard key={game.id} game={game} activeColumn="Backlog" />
                 ))}
               </Carousel>
             )}
-            {games?.completed && games?.completed.length > 0 && (
-              <Carousel title="Completed">
-                {games.completed.map((game) => (
-                  <GameCard key={game.id} game={game} />
+            {games?.finished && games?.finished.length > 0 && (
+              <Carousel title="Finished">
+                {games.finished.map((game) => (
+                  <GameCard key={game.id} game={game} activeColumn="Finished" />
                 ))}
               </Carousel>
             )}

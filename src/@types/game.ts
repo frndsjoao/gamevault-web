@@ -11,7 +11,7 @@ export type GameStatusType =
   | "Replay"
   | "Playing"
   | "Abandoned"
-  | "Completed"
+  | "Finished"
 
 export type PlatformId = (typeof platforms)[number]["id"]
 
@@ -31,7 +31,7 @@ export interface IGame {
   selectedPlatform?: PlatformId
   rating?: number
   platinum?: boolean
-  completedAt?: string | null
+  finishedAt?: string | null
   user_id?: number
   status?: GameStatusType
   createdAt?: string

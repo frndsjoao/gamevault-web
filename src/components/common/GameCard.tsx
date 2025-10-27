@@ -9,7 +9,7 @@ import { getFilteredStatus } from "@/utils/status"
 import { useUpdateGameQuery } from "@/hooks/mutations/useGames"
 
 interface StatusOptionsProps {
-  activeColumn?: "Playing" | "Backlog" | "Completed"
+  activeColumn?: GameStatusType
   active?: GameStatusType
   changeGameStatus: (status: GameStatusType) => void
   loadingStatus?: GameStatusType | null
@@ -17,9 +17,10 @@ interface StatusOptionsProps {
 
 interface GameCardProps {
   game: IGame
+  activeColumn?: "Backlog" | "Playing" | "Finished"
 }
 
-export default function GameCard({ game }: GameCardProps) {
+export default function GameCard({ game, activeColumn }: GameCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
   const [loadingStatus, setLoadingStatus] = useState<GameStatusType | null>(
@@ -30,7 +31,7 @@ export default function GameCard({ game }: GameCardProps) {
   const { mutate: updateGame } = useUpdateGameQuery()
 
   async function changeGameStatus(status: GameStatusType) {
-    if (status === "Completed") {
+    if (status === "Finished") {
       confettiRef.current?.fire()
       setIsReviewModalOpen(true)
       return
@@ -75,27 +76,27 @@ export default function GameCard({ game }: GameCardProps) {
           )}
         </div>
 
-        <div className="px-2 py-2 md:px-3">
-          <div className="mb-2 flex flex-row items-center justify-between gap-3">
-            <p className="truncate text-sm font-medium text-text-light md:text-base">
-              {game.name}
-            </p>
-            {game.selectedPlatform && (
-              <Icon
-                name={`plat-${game.selectedPlatform}` as IconName}
-                size={14}
-                className="flex-shrink-0 text-text-light md:size-4"
-              />
-            )}
-          </div>
+        <div className="flex min-h-[100px] flex-col justify-between px-2 py-2 md:min-h-[110px] md:px-3">
+          <div>
+            <div className="mb-2 flex flex-row items-center justify-between gap-3">
+              <p className="truncate text-sm font-medium text-text-light md:text-base">
+                {game.name}
+              </p>
+              {game.selectedPlatform && (
+                <Icon
+                  name={`plat-${game.selectedPlatform}` as IconName}
+                  size={14}
+                  className="flex-shrink-0 text-text-light md:size-4"
+                />
+              )}
+            </div>
 
-          {game.status &&
-            !["Backlog", "Playing"].includes(game?.status) &&
-            game.rating &&
-            game.rating > 0 && <Rating rating={game.rating} />}
+            <Rating rating={game.rating ?? 0} />
+          </div>
 
           {game.status && (
             <StatusOptions
+              activeColumn={activeColumn}
               changeGameStatus={changeGameStatus}
               active={game.status}
               loadingStatus={loadingStatus}
@@ -127,7 +128,7 @@ function StatusOptions({
   changeGameStatus,
   loadingStatus,
 }: StatusOptionsProps) {
-  const filteredStatus = getFilteredStatus(activeColumn)
+  const filteredStatus = getFilteredStatus(activeColumn, active)
 
   return (
     <div className="mb-1 mt-2 flex w-full flex-row flex-wrap items-center gap-1 md:mb-2 md:mt-3">

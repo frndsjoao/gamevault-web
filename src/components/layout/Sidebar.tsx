@@ -11,6 +11,7 @@ import { useUser } from "@/store/user"
 import { useAppNavigate } from "@/hooks/useNavigation"
 import { toast } from "react-toastify"
 import { storage } from "@/utils/localStorage"
+import { useLocation } from "react-router-dom"
 
 interface NavOptionsProps {
   icon: IconName
@@ -35,17 +36,44 @@ export default function Sidebar({
   sidebarOpen = false,
   setSidebarOpen,
 }: SidebarProps = {}) {
+  const navigate = useAppNavigate()
+  const location = useLocation()
+  const currentPath = location.pathname
+  const currentFilter = location.state?.filter
+
   const navItems: SidebarNavProps[] = [
     {
       group: "",
-      nav: [{ icon: "home", onPress: () => {}, label: "Home", active: true }],
+      nav: [
+        {
+          icon: "home",
+          onPress: () => navigate("/dashboard"),
+          label: "Home",
+          active: currentPath === "/dashboard",
+        },
+      ],
     },
     {
       group: "Games",
       nav: [
-        { icon: "whishlist", onPress: () => {}, label: "Backlog" },
-        { icon: "gamepad", onPress: () => {}, label: "Playing" },
-        { icon: "square-check", onPress: () => {}, label: "Finished" },
+        {
+          icon: "whishlist",
+          onPress: () => navigate("/games", { state: { filter: "Backlog" } }),
+          label: "Backlog",
+          active: currentPath === "/games" && currentFilter === "Backlog",
+        },
+        {
+          icon: "gamepad",
+          onPress: () => navigate("/games", { state: { filter: "Playing" } }),
+          label: "Playing",
+          active: currentPath === "/games" && currentFilter === "Playing",
+        },
+        {
+          icon: "square-check",
+          onPress: () => navigate("/games", { state: { filter: "Finished" } }),
+          label: "Finished",
+          active: currentPath === "/games" && currentFilter === "Finished",
+        },
       ],
     },
     {
@@ -106,6 +134,7 @@ function SidebarHeader({
 function SidebarButton({ item }: { item: NavOptionsProps }) {
   return (
     <button
+      onClick={item.onPress}
       disabled={item.disabled}
       className={`flex items-center justify-between w-full px-4 py-2 rounded-lg transition-colors ease-in-out duration-300 disabled:hover:bg-transparent disabled:cursor-not-allowed ${
         item.active ? "bg-btn-light" : "bg-transparent hover:bg-btn-dark"
