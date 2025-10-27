@@ -12,8 +12,6 @@ export default function Dashboard() {
 
   const { data: games, isLoading } = useDashboardQuery()
 
-  console.log(games)
-
   const hasGames =
     games &&
     ((games.playing && games.playing.length > 0) ||

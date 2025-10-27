@@ -38,6 +38,7 @@ export default function GameCard({ game, activeColumn }: GameCardProps) {
     }
 
     setLoadingStatus(status)
+
     updateGame(
       { id: game.id ?? 0, game: { ...game, status } },
       {

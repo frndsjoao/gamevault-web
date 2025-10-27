@@ -4,11 +4,13 @@ import Input from "@/components/common/Input"
 import { useSearchGameQuery } from "@/hooks/queries/useSearchGame"
 import React from "react"
 import DumbGameCover from "@/components/common/DumbGameCover"
-import { IGameSearchIGDB } from "@/@types/game"
+import { IGame, IGameSearchIGDB } from "@/@types/game"
 import Select from "@/components/common/Select"
 import Icon, { IconName } from "@/components/common/Icon"
 import { platforms } from "@/utils/platforms"
 import { GameModalContent } from "./GameModalContent"
+import { useUser } from "@/store/user"
+import { useAddGameQuery } from "@/hooks/mutations/useGames"
 
 interface SearchGameModalProps {
   isOpen: boolean
@@ -189,45 +191,82 @@ const GameSelectionBtn = React.memo(
     game: IGameSearchIGDB
     handleGameSelect: (game: IGameSearchIGDB) => void
   }) => {
+    const preferredPlatform = useUser((state) => state.user?.preferredPlatform)
+    const findedPlatform = game.platforms.find(
+      (p) => p.name === preferredPlatform,
+    )
+    const platform = findedPlatform ? findedPlatform.id : game.platforms[0].id
+    const addGame = useAddGameQuery()
+
     const handleClick = useCallback(() => {
       handleGameSelect(game)
     }, [game, handleGameSelect])
 
-    return (
-      <button
-        key={game.id}
-        onClick={handleClick}
-        className="flex w-full flex-row items-center gap-4 rounded-lg bg-gray-800 px-2 py-2 text-left text-sm text-text-light transition-all duration-200 hover:bg-gray-700 hover:shadow-md active:scale-[0.98] md:px-3 md:py-2 md:text-base"
-      >
-        {game.cover ? (
-          <img
-            src={game.cover}
-            alt={game.name}
-            className="h-14 w-10 rounded object-cover shadow-lg md:max-h-72 lg:max-h-96"
-          />
-        ) : (
-          <DumbGameCover className="h-14 w-10 rounded" />
-        )}
-        <div className="">
-          <p className="text-sm font-semibold text-text-light md:text-base">
-            {game.name} - {game.platforms[0].releaseDate}
-          </p>
-          {game.platforms.map((p, index) => {
-            function getPlatformIcon(): IconName {
-              return `plat-${p.id}` as IconName
-            }
+    const handleQuickAdd = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation()
 
-            return (
-              <Icon
-                key={`${p}-${index}`}
-                name={getPlatformIcon()}
-                size={14}
-                className="mr-3 inline text-text-medium"
-              />
-            )
-          })}
-        </div>
-      </button>
+        const gameData: IGame = {
+          name: game.name,
+          cover: game.cover,
+          platforms: game.platforms,
+          finishedAt: null,
+          igdbId: game.id,
+          platinum: false,
+          rating: 0,
+          selectedPlatform: platform,
+          status: "Backlog",
+        }
+
+        addGame.mutate(gameData)
+      },
+      [game, addGame, platform],
+    )
+
+    return (
+      <div className="relative flex w-full flex-row items-center gap-4 rounded-lg bg-gray-800 transition-all duration-200 hover:bg-gray-700 hover:shadow-md">
+        <button
+          key={game.id}
+          onClick={handleClick}
+          className="flex flex-1 flex-row items-center gap-4 px-2 py-2 text-left text-sm text-text-light active:scale-[0.98] md:px-3 md:py-2 md:text-base"
+        >
+          {game.cover ? (
+            <img
+              src={game.cover}
+              alt={game.name}
+              className="h-14 w-10 rounded object-cover shadow-lg md:max-h-72 lg:max-h-96"
+            />
+          ) : (
+            <DumbGameCover className="h-14 w-10 rounded" />
+          )}
+          <div className="">
+            <p className="text-sm font-semibold text-text-light md:text-base">
+              {game.name} - {game.platforms[0].releaseDate}
+            </p>
+            {game.platforms.map((p, index) => {
+              function getPlatformIcon(): IconName {
+                return `plat-${p.id}` as IconName
+              }
+
+              return (
+                <Icon
+                  key={`${p}-${index}`}
+                  name={getPlatformIcon()}
+                  size={14}
+                  className="mr-3 inline text-text-medium"
+                />
+              )
+            })}
+          </div>
+        </button>
+        <button
+          onClick={handleQuickAdd}
+          className="mr-2 flex h-6 w-6 items-center justify-center rounded border-border bg-gray-600 transition-colors duration-200 hover:bg-gray-500 active:scale-90 md:mr-3"
+          title="Add game quickly"
+        >
+          <Icon name="plus" size={14} className="inline text-text-medium" />
+        </button>
+      </div>
     )
   },
 )

@@ -14,8 +14,6 @@ export const getFilteredStatus = (
 ): GameStatusType[] => {
   const quickStatus: GameStatusType[] = ["Backlog", "Playing", "Finished"]
 
-  console.log(activeColumn, activeStatus)
-
   if (activeColumn === "Finished") return ["Finished", "Playing", "Replay"]
   if (activeColumn === "Backlog" && activeStatus === "Backlog")
     return ["Backlog", "Playing", "Finished"]

@@ -21,6 +21,7 @@ import {
   AtSign,
   KeyRound,
   Calendar1,
+  Plus,
 } from "lucide-react"
 import {
   BsNintendoSwitch,
@@ -52,6 +53,7 @@ export const icons = {
   at: AtSign,
   key: KeyRound,
   calendar: Calendar1,
+  plus: Plus,
 
   "plat-playstation": BsPlaystation,
   "plat-nintendo": BsNintendoSwitch,
