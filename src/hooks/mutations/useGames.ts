@@ -14,6 +14,7 @@ export const useAddGameQuery = () => {
     onSuccess: () => {
       toast("Game added successfully!", { type: "success" })
       queryClient.invalidateQueries({ queryKey: ["dashboard"] })
+      queryClient.invalidateQueries({ queryKey: ["game-list"] })
     },
     onError: (error: IApiError) => {
       showErrorToast(error.message)
@@ -64,6 +65,7 @@ export const useUpdateGameQuery = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["dashboard"] })
+      queryClient.invalidateQueries({ queryKey: ["game-list"] })
     },
   })
 }
@@ -76,6 +78,7 @@ export const useDeleteGameQuery = () => {
     onSuccess: () => {
       toast("Game deleted successfully!", { type: "success" })
       queryClient.invalidateQueries({ queryKey: ["dashboard"] })
+      queryClient.invalidateQueries({ queryKey: ["game-list"] })
     },
     onError: (error: IApiError) => {
       showErrorToast(error.message)
