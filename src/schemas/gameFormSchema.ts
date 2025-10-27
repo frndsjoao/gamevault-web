@@ -38,4 +38,15 @@ export const gameFormSchema = z
     },
   )
 
+export const completeGameFormSchema = z.object({
+  rating: z
+    .number()
+    .min(0, "Rating cannot be negative")
+    .max(5, "Rating cannot exceed 5")
+    .transform((val) => Math.round(val)),
+
+  platinum: z.boolean().default(false),
+})
+
 export type GameFormData = z.infer<typeof gameFormSchema>
+export type CompleteGameFormData = z.infer<typeof completeGameFormSchema>

@@ -2,6 +2,7 @@ import { useState } from "react"
 import Icon, { IconName } from "./Icon"
 import Rating from "./Rating"
 import GameModal from "../layout/Modals/GameModal"
+import ReviewGameModal from "../layout/Modals/ReviewGameModal"
 import { GameStatusType, IGame } from "@/@types/game"
 import { getFilteredStatus } from "@/utils/status"
 import { useUpdateGameQuery } from "@/hooks/mutations/useGames"
@@ -19,19 +20,32 @@ interface GameCardProps {
 
 export default function GameCard({ game }: GameCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [loadingStatus, setLoadingStatus] = useState<GameStatusType | null>(null)
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+  const [loadingStatus, setLoadingStatus] = useState<GameStatusType | null>(
+    null,
+  )
 
   const { mutate: updateGame } = useUpdateGameQuery()
 
   async function changeGameStatus(status: GameStatusType) {
+    if (status === "Completed") {
+      setIsReviewModalOpen(true)
+      return
+    }
+
     setLoadingStatus(status)
     updateGame(
       { id: game.id ?? 0, game: { ...game, status } },
       {
         onSuccess: () => setLoadingStatus(null),
         onError: () => setLoadingStatus(null),
-      }
+      },
     )
+  }
+
+  function handleReviewComplete() {
+    setIsReviewModalOpen(false)
+    setLoadingStatus(null)
   }
 
   return (
@@ -45,6 +59,15 @@ export default function GameCard({ game }: GameCardProps) {
             loading="lazy"
             onClick={() => setIsModalOpen(true)}
           />
+          {game.platinum && (
+            <div className="absolute right-2 top-2 rounded-full bg-gray-800 p-2 opacity-80">
+              <Icon
+                name="platinum"
+                size={16}
+                className="text-text-light md:size-4"
+              />
+            </div>
+          )}
         </div>
 
         <div className="px-2 py-2 md:px-3">
@@ -81,6 +104,13 @@ export default function GameCard({ game }: GameCardProps) {
         onClose={() => setIsModalOpen(false)}
         game={game}
         update
+      />
+
+      <ReviewGameModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        game={game}
+        onConfirm={handleReviewComplete}
       />
     </>
   )
