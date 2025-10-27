@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Icon, { IconName } from "./Icon"
 import Rating from "./Rating"
 import GameModal from "../layout/Modals/GameModal"
 import ReviewGameModal from "../layout/Modals/ReviewGameModal"
+import { Confetti, type ConfettiRef } from "./Confetti"
 import { GameStatusType, IGame } from "@/@types/game"
 import { getFilteredStatus } from "@/utils/status"
 import { useUpdateGameQuery } from "@/hooks/mutations/useGames"
@@ -24,11 +25,13 @@ export default function GameCard({ game }: GameCardProps) {
   const [loadingStatus, setLoadingStatus] = useState<GameStatusType | null>(
     null,
   )
+  const confettiRef = useRef<ConfettiRef>(null)
 
   const { mutate: updateGame } = useUpdateGameQuery()
 
   async function changeGameStatus(status: GameStatusType) {
     if (status === "Completed") {
+      confettiRef.current?.fire()
       setIsReviewModalOpen(true)
       return
     }
@@ -50,6 +53,8 @@ export default function GameCard({ game }: GameCardProps) {
 
   return (
     <>
+      <Confetti ref={confettiRef} />
+
       <div className="relative w-48 flex-shrink-0 overflow-hidden rounded-lg border border-border bg-gray-900 md:w-56 lg:w-64">
         <div className="aspect-[3/4] max-h-72 w-full overflow-hidden">
           <img
