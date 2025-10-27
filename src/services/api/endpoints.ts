@@ -7,7 +7,7 @@ export const ENDPOINTS = {
     add: "/games",
     // byId: (id: string) => `/games/${id}`,
     deleteById: (id: string) => `/games/${id}`,
-    updateById: (id: string) => `/games/${id}`,
+    updateById: (id: number) => `/games/${id}`,
     searchByName: ({ name, platform }: SearchRequestProps) =>
       `/search?search=${name}${platform ? `&platform=${platform}` : ""}`,
   },

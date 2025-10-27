@@ -46,7 +46,7 @@ export function GameModalContent({
   const selectedPlatform = watch("platform")
 
   const addGame = useAddGameQuery()
-  // const updateGame = useUpdateGameQuery()
+  const updateGame = useUpdateGameQuery()
 
   const platformIcon = useCallback(
     (platform: IPlatform) => `plat-${platform.id}` as IconName,
@@ -70,7 +70,7 @@ export function GameModalContent({
     }
 
     if (update) {
-      // updateGame({})
+      updateGame.mutate({ id: game.id ?? 0, game: gameData })
     } else {
       addGame.mutate(gameData)
     }
@@ -80,7 +80,7 @@ export function GameModalContent({
     showErrorToast(
       parseSchemaErrors(err) ||
         addGame.error?.message ||
-        // updateGame.error?.message ||
+        updateGame.error?.message ||
         "",
     )
   }
@@ -221,7 +221,7 @@ export function GameModalContent({
       <Button
         label="Save"
         className="ml-auto w-full md:max-w-44"
-        isLoading={addGame.isPending}
+        isLoading={addGame.isPending || updateGame.isPending}
       />
     </form>
   )

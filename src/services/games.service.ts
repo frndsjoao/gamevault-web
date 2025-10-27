@@ -9,7 +9,7 @@ export interface SearchRequestProps {
 }
 
 export interface UpdateGameRequestProps {
-  id: string
+  id: number
   game: IGame
 }
 
