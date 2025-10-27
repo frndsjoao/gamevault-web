@@ -46,7 +46,7 @@ api.interceptors.response.use(
     }
 
     const apiError = {
-      message: error.response?.data.errors || ["Erro na requisição"],
+      message: error.response?.data.errors || ["Request error."],
       statusCode: error.response?.status,
     }
 

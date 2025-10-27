@@ -17,7 +17,7 @@ export const signUpschema = z
 
 export const signInschema = z.object({
   email: z.email(),
-  password: z.string().min(6, { error: "Must have 8 characters" }),
+  password: z.string().min(6, { error: "Must have 6 characters" }),
   showPassword: z.boolean().default(false),
 })
 
