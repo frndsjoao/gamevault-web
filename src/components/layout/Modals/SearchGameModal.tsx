@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useCallback } from "react"
 import ModalContainer from "./Modal"
 import Input from "@/components/common/Input"
 import { useSearchGameQuery } from "@/hooks/queries/useSearchGame"
@@ -11,6 +11,7 @@ import { platforms } from "@/utils/platforms"
 import { GameModalContent } from "./GameModalContent"
 import { useUser } from "@/store/user"
 import { useAddGameQuery } from "@/hooks/mutations/useGames"
+import { useDebounce } from "@/hooks/useDebounce"
 
 interface SearchGameModalProps {
   isOpen: boolean
@@ -25,20 +26,22 @@ interface SearchByNameProps {
   isLoading: boolean
   setFilterPlatform: (arg: string) => void
   filterPlatform: string
+  isDebouncing: boolean
 }
 
-const DEBOUNCE_TIMER = 800
+const DEBOUNCE_DELAY = 800
 
 export default function SearchGameModal({
   isOpen,
   onClose,
 }: SearchGameModalProps) {
   const [searchTerm, setSearchTerm] = useState("")
-  const [debouncedSearch, setDebouncedSearch] = useState("")
-  const [debounceLoader, setDebounceLoader] = useState(false)
   const [selectedGame, setSelectedGame] = useState<IGameSearchIGDB | null>(null)
   const [isSliding, setIsSliding] = useState(false)
   const [filterPlatform, setFilterPlatform] = useState(platforms[0].id)
+
+  const debouncedSearch = useDebounce(searchTerm, DEBOUNCE_DELAY)
+  const isDebouncing = searchTerm !== debouncedSearch
 
   const { data: gameList, isLoading } = useSearchGameQuery(
     {
@@ -66,20 +69,8 @@ export default function SearchGameModal({
     onClose()
     setSearchTerm("")
     setSelectedGame(null)
-    setDebouncedSearch("")
-    setDebounceLoader(false)
     setIsSliding(false)
   }, [onClose])
-
-  useEffect(() => {
-    setDebounceLoader(true)
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchTerm)
-      setDebounceLoader(false)
-    }, DEBOUNCE_TIMER)
-
-    return () => clearTimeout(timer)
-  }, [searchTerm])
 
   return (
     <ModalContainer
@@ -99,7 +90,8 @@ export default function SearchGameModal({
           handleGameSelect={handleGameSelect}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          isLoading={isLoading || debounceLoader}
+          isLoading={isLoading}
+          isDebouncing={isDebouncing}
           setFilterPlatform={setFilterPlatform}
           filterPlatform={filterPlatform}
         />
@@ -118,6 +110,7 @@ const SearchByName = React.memo(
     gameList,
     handleGameSelect,
     isLoading,
+    isDebouncing,
     filterPlatform,
     setFilterPlatform,
   }: SearchByNameProps) => {
@@ -149,7 +142,7 @@ const SearchByName = React.memo(
 
         <div className="mt-3 flex-1 overflow-y-auto md:mt-4">
           <div className="space-y-2">
-            {isLoading && searchTerm.length >= 3 && (
+            {(isLoading || isDebouncing) && searchTerm.length >= 3 && (
               <p className="py-6 text-center text-sm text-gray-500 md:py-8 md:text-base">
                 Searching...
               </p>
@@ -157,6 +150,7 @@ const SearchByName = React.memo(
             {gameList &&
               gameList.length > 0 &&
               !isLoading &&
+              !isDebouncing &&
               searchTerm.length >= 3 && (
                 <>
                   {gameList.map((game) => (
@@ -171,6 +165,7 @@ const SearchByName = React.memo(
             {gameList &&
               gameList.length === 0 &&
               !isLoading &&
+              !isDebouncing &&
               searchTerm.length >= 3 && (
                 <p className="py-6 text-center text-sm text-gray-500 md:py-8 md:text-base">
                   Game not found.
@@ -234,6 +229,8 @@ const GameSelectionBtn = React.memo(
             <img
               src={game.cover}
               alt={game.name}
+              loading="lazy"
+              decoding="async"
               className="h-14 w-10 rounded object-cover shadow-lg md:max-h-72 lg:max-h-96"
             />
           ) : (
@@ -263,6 +260,7 @@ const GameSelectionBtn = React.memo(
           onClick={handleQuickAdd}
           className="mr-2 flex h-6 w-6 items-center justify-center rounded border-border bg-gray-600 transition-colors duration-200 hover:bg-gray-500 active:scale-90 md:mr-3"
           title="Add game quickly"
+          aria-label={`Fast add ${game.name} to Backlog`}
         >
           <Icon name="plus" size={14} className="inline text-text-medium" />
         </button>

@@ -64,7 +64,16 @@ export default function GameCard({ game, activeColumn }: GameCardProps) {
             src={game.cover}
             alt={`${game.name} cover`}
             loading="lazy"
+            decoding="async"
             onClick={() => setIsModalOpen(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault()
+                setIsModalOpen(true)
+              }
+            }}
           />
           {game.platinum && (
             <div className="absolute right-2 top-2 rounded-full bg-gray-800 p-2 opacity-80">
@@ -142,6 +151,8 @@ function StatusOptions({
             className={`rounded-md border border-border px-1.5 py-0.5 transition-colors duration-300 ease-in-out hover:bg-btn-dark active:scale-95 md:px-2 md:py-1 ${active === item ? "bg-btn-light hover:bg-btn-light" : "bg-transparent"} ${isLoading ? "opacity-50 cursor-wait" : ""}`}
             onClick={() => changeGameStatus(item)}
             disabled={isLoading}
+            aria-label={`Change status to ${item}`}
+            aria-pressed={active === item}
           >
             <p
               className={`text-[10px] md:text-xs ${active === item ? "text-text-dark" : "text-text-light"}`}

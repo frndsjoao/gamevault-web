@@ -94,6 +94,8 @@ export function GameModalContent({
         <img
           src={game.cover}
           alt={game.name}
+          loading="lazy"
+          decoding="async"
           className="w-40 self-center rounded-lg object-cover shadow-lg md:w-64"
         />
         <div className="w-full space-y-3 text-start md:space-y-4">
