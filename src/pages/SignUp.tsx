@@ -12,6 +12,7 @@ import { parseSchemaErrors } from "@/utils/parseSchemaError"
 import { useEffect, useState } from "react"
 import { storage } from "@/utils/localStorage"
 import { useAppNavigate } from "@/hooks/useNavigation"
+import logoSvg from "@/assets/gamevault-logo.svg"
 
 export default function SignUp() {
   const navigate = useAppNavigate()
@@ -57,6 +58,7 @@ export default function SignUp() {
 
   return (
     <BaseView>
+      <img src={logoSvg} alt="GameVault Logo" className="mx-auto h-28" />
       <Card className="max-w-md">
         <h2 className="mb-2 text-xl font-semibold text-text-light">
           Create your account
