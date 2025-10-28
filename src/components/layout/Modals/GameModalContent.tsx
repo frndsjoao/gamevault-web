@@ -9,7 +9,11 @@ import { gameStatus } from "@/utils/status"
 import { useCallback } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { useAddGameQuery, useUpdateGameQuery } from "@/hooks/mutations/useGames"
+import {
+  useAddGameQuery,
+  useDeleteGameQuery,
+  useUpdateGameQuery,
+} from "@/hooks/mutations/useGames"
 import { formatDateToString, showErrorToast } from "@/utils/utils"
 import { parseSchemaErrors } from "@/utils/parseSchemaError"
 
@@ -47,6 +51,7 @@ export function GameModalContent({
 
   const addGame = useAddGameQuery()
   const updateGame = useUpdateGameQuery()
+  const deleteGame = useDeleteGameQuery()
 
   const platformIcon = useCallback(
     (platform: IPlatform) => `plat-${platform.id}` as IconName,
@@ -74,6 +79,10 @@ export function GameModalContent({
     } else {
       addGame.mutate(gameData)
     }
+  }
+
+  const onDelete = async () => {
+    deleteGame.mutate(game.id ?? 0)
   }
 
   const onError = (err: any) => {
@@ -220,11 +229,23 @@ export function GameModalContent({
         </div>
       </div>
 
-      <Button
-        label="Save"
-        className="ml-auto w-full md:max-w-44"
-        isLoading={addGame.isPending || updateGame.isPending}
-      />
+      <div className="flex w-full flex-row items-center justify-between gap-5">
+        <button
+          type="button"
+          onClick={onDelete}
+          className="group/delete rounded-md bg-transparent p-2 transition-colors duration-300 hover:bg-gray-800"
+        >
+          <Icon
+            name="trash"
+            className="text-text-light transition-colors duration-300 group-hover/delete:text-accent-error-500"
+          />
+        </button>
+        <Button
+          label="Save"
+          className="ml-auto w-full md:max-w-44"
+          isLoading={addGame.isPending || updateGame.isPending}
+        />
+      </div>
     </form>
   )
 }

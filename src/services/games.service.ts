@@ -54,7 +54,7 @@ export const gamesService = {
     return data
   },
 
-  delete: async (id: string): Promise<{ message: string }> => {
+  delete: async (id: number): Promise<{ message: string }> => {
     const { data } = await api.delete<{ message: string }>(
       ENDPOINTS.games.deleteById(id),
     )

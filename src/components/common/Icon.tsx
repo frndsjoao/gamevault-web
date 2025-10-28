@@ -22,6 +22,7 @@ import {
   KeyRound,
   Calendar1,
   Plus,
+  Trash,
 } from "lucide-react"
 import {
   BsNintendoSwitch,
@@ -54,6 +55,7 @@ export const icons = {
   key: KeyRound,
   calendar: Calendar1,
   plus: Plus,
+  trash: Trash,
 
   "plat-playstation": BsPlaystation,
   "plat-nintendo": BsNintendoSwitch,
