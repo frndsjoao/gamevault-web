@@ -62,7 +62,7 @@ export function GameModalContent({
       cover: game.cover,
       platforms: game.platforms,
       finishedAt: formatDateToString(data.finishedDate),
-      igdbId: game.id,
+      igdbId: game.igdbId ? game.igdbId : game.id,
       platinum: data.platinum,
       rating: data.rating,
       selectedPlatform: data.platform,
