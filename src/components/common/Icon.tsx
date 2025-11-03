@@ -23,6 +23,7 @@ import {
   Calendar1,
   Plus,
   Trash,
+  Ban,
 } from "lucide-react"
 import {
   BsNintendoSwitch,
@@ -56,6 +57,7 @@ export const icons = {
   calendar: Calendar1,
   plus: Plus,
   trash: Trash,
+  ban: Ban,
 
   "plat-playstation": BsPlaystation,
   "plat-nintendo": BsNintendoSwitch,

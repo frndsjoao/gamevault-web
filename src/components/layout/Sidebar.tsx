@@ -1,4 +1,4 @@
-import Icon, { IconName } from "../common/Icon"
+import Icon from "../common/Icon"
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -11,21 +11,7 @@ import { useUser } from "@/store/user"
 import { useAppNavigate } from "@/hooks/useNavigation"
 import { toast } from "react-toastify"
 import { storage } from "@/utils/localStorage"
-import { useLocation } from "react-router-dom"
-
-interface NavOptionsProps {
-  icon: IconName
-  label: string
-  active?: boolean
-  onPress: () => void
-  disabled?: boolean
-  message?: string
-}
-
-interface SidebarNavProps {
-  group: string
-  nav: NavOptionsProps[]
-}
+import { useNavItems, NavOptionsProps } from "@/hooks/useNavItems"
 
 interface SidebarProps {
   sidebarOpen?: boolean
@@ -36,59 +22,7 @@ export default function Sidebar({
   sidebarOpen = false,
   setSidebarOpen,
 }: SidebarProps = {}) {
-  const navigate = useAppNavigate()
-  const location = useLocation()
-  const currentPath = location.pathname
-  const currentFilter = location.state?.filter
-
-  const navItems: SidebarNavProps[] = [
-    {
-      group: "",
-      nav: [
-        {
-          icon: "home",
-          onPress: () => navigate("/dashboard"),
-          label: "Home",
-          active: currentPath === "/dashboard",
-        },
-      ],
-    },
-    {
-      group: "Games",
-      nav: [
-        {
-          icon: "whishlist",
-          onPress: () => navigate("/games", { state: { filter: "Backlog" } }),
-          label: "Backlog",
-          active: currentPath === "/games" && currentFilter === "Backlog",
-        },
-        {
-          icon: "gamepad",
-          onPress: () => navigate("/games", { state: { filter: "Playing" } }),
-          label: "Playing",
-          active: currentPath === "/games" && currentFilter === "Playing",
-        },
-        {
-          icon: "square-check",
-          onPress: () => navigate("/games", { state: { filter: "Finished" } }),
-          label: "Finished",
-          active: currentPath === "/games" && currentFilter === "Finished",
-        },
-      ],
-    },
-    {
-      group: "Your Account",
-      nav: [
-        {
-          icon: "chart",
-          onPress: () => {},
-          label: "Activity",
-          disabled: true,
-          message: "Soon...",
-        },
-      ],
-    },
-  ]
+  const { navItems } = useNavItems()
 
   return (
     <aside
@@ -175,9 +109,21 @@ function SidebarUser() {
   return (
     <div className="w-full rounded-lg bg-transparent px-4 py-3 transition-colors duration-300 ease-in-out hover:bg-btn-dark">
       <div className="flex items-center space-x-4">
-        <div className="rounded-full bg-white p-2 opacity-30">
-          <Icon name="user" size={20} />
-        </div>
+        {user?.avatar ? (
+          <div className="h-10 w-10 rounded-full shadow-lg">
+            <img
+              src={user.avatar}
+              alt="Profile icon"
+              loading="lazy"
+              decoding="async"
+              className="h-10 w-10 rounded-full object-cover shadow-lg"
+            />
+          </div>
+        ) : (
+          <div className="rounded-full bg-white p-2 opacity-30">
+            <Icon name="user" size={24} />
+          </div>
+        )}
 
         <div className="flex w-full min-w-0 flex-1 flex-col">
           <p className="truncate text-sm font-medium text-text-light">

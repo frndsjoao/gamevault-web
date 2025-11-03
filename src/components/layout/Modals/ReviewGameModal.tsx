@@ -7,11 +7,12 @@ import {
   CompleteGameFormData,
   completeGameFormSchema,
 } from "@/schemas/gameFormSchema"
-import { formatDateToString, showErrorToast } from "@/utils/utils"
+import { showErrorToast } from "@/utils/utils"
 import { parseSchemaErrors } from "@/utils/parseSchemaError"
 import Button from "@/components/common/Button"
 import Checkbox from "@/components/common/Checkbox"
 import Rating from "@/components/common/Rating"
+import { getTodayString } from "@/utils/dateHandler"
 
 interface GameModalProps {
   isOpen: boolean
@@ -38,11 +39,10 @@ export default function ReviewGameModal({
   const { mutate: updateGame, error, isPending } = useUpdateGameQuery()
 
   const handleConfirm = async (data: CompleteGameFormData) => {
-    const today = new Date()
     const finishedStatus: GameStatusType = "Finished"
     const gameData = {
       ...game,
-      finishedAt: formatDateToString(today),
+      finishedAt: getTodayString(),
       platinum: data.platinum,
       rating: data.rating,
       status: finishedStatus,
@@ -54,11 +54,10 @@ export default function ReviewGameModal({
   }
 
   const handleConfirmWithoutReview = async () => {
-    const today = new Date()
     const finishedStatus: GameStatusType = "Finished"
     const gameData = {
       ...game,
-      finishedAt: formatDateToString(today),
+      finishedAt: getTodayString(),
       status: finishedStatus,
     }
 

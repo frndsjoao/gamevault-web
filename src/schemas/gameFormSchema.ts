@@ -23,7 +23,7 @@ export const gameFormSchema = z
       error: "Please select a status.",
     }),
 
-    finishedDate: z.date().optional(),
+    finishedDate: z.string().optional().nullable(),
   })
   .refine(
     (data) => {

@@ -14,8 +14,9 @@ import {
   useDeleteGameQuery,
   useUpdateGameQuery,
 } from "@/hooks/mutations/useGames"
-import { formatDateToString, showErrorToast } from "@/utils/utils"
+import { showErrorToast } from "@/utils/utils"
 import { parseSchemaErrors } from "@/utils/parseSchemaError"
+import { getTodayString } from "@/utils/dateHandler"
 
 interface SearchGameModalProps {
   game: IGame
@@ -41,7 +42,7 @@ export function GameModalContent({
       rating: game.rating || 0,
       platinum: game.platinum || false,
       status: (game.status as GameFormData["status"]) || "Backlog",
-      finishedDate: undefined,
+      finishedDate: game.finishedAt || getTodayString(),
     },
     mode: "onChange",
   })
@@ -66,7 +67,7 @@ export function GameModalContent({
       name: game.name,
       cover: game.cover,
       platforms: game.platforms,
-      finishedAt: formatDateToString(data.finishedDate),
+      finishedAt: data.status === "Finished" ? data.finishedDate : null,
       igdbId: game.igdbId ? game.igdbId : game.id,
       platinum: data.platinum,
       rating: data.rating,

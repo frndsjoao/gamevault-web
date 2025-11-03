@@ -7,14 +7,11 @@ import { SignInData, signInschema } from "@/schemas/authSchema"
 import { showErrorToast } from "@/utils/utils"
 import { useAppNavigate } from "@/hooks/useNavigation"
 import { storage } from "@/utils/localStorage"
-import { useEffect } from "react"
-import { useProfileQuery } from "@/hooks/queries/useProfile"
 import logoSvg from "@/assets/gamevault-logo.svg"
 
 export default function Login() {
   const navigate = useAppNavigate()
   const emailStorage = storage.getEmail()
-  const token = storage.getToken()
   const { control, handleSubmit, watch } = useForm({
     resolver: zodResolver(signInschema),
     defaultValues: {
@@ -28,11 +25,11 @@ export default function Login() {
   const showPassword = watch("showPassword")
 
   const { mutate: signIn, isPending, error } = useSignInQuery()
-  const { data: profile } = useProfileQuery({
-    enabled: !!token,
-  })
 
   const onSubmit = async (data: SignInData) => {
+    if (emailStorage !== data.email) {
+      storage.setEmail(data.email)
+    }
     signIn({ email: data.email, password: data.password })
   }
 
@@ -43,12 +40,6 @@ export default function Login() {
   const createAccount = () => {
     navigate("/signup")
   }
-
-  useEffect(() => {
-    if (profile?.email && profile.name) {
-      navigate("/dashboard")
-    }
-  }, [profile, navigate])
 
   return (
     <BaseView>

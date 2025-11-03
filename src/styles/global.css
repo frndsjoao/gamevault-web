@@ -1,17 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --bg-main: theme('colors.bg-darkest');
-    --bg-card: theme('colors.bg-dark');
+    --bg-main: theme("colors.bg-darkest");
+    --bg-card: theme("colors.bg-dark");
   }
 
   body {
-    background-color: theme('colors.bg-darkest');
-    color: theme('colors.text-light');
-    font-family: "Nunito"
+    background-color: theme("colors.bg-darkest");
+    color: theme("colors.text-light");
+    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body.fonts-loading {
+    visibility: hidden;
+  }
+
+  body.fonts-loaded {
+    visibility: visible;
+  }
+
+  select {
+    color-scheme: light;
+  }
+
+  .rdp-dropdown select {
+    background-color: theme("colors.bg-dark") !important;
+    color: theme("colors.text-light") !important;
+    border: 1px solid theme("colors.border") !important;
+  }
+
+  .rdp-dropdown select option {
+    background-color: theme("colors.bg-dark") !important;
+    color: theme("colors.text-light") !important;
   }
 }

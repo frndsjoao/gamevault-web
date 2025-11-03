@@ -7,7 +7,7 @@ export const signUpschema = z
     email: z.email({ error: "Email is required" }),
     password: z.string({ error: "Password is required" }).min(6),
     confirmPassword: z.string({ error: "Confirm your password" }),
-    birthdate: z.date().optional(),
+    birthdate: z.string(),
     preferredPlatform: z.enum(platforms.map((p) => p.id)),
   })
   .refine((data) => data.password === data.confirmPassword, {

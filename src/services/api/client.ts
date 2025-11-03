@@ -2,6 +2,12 @@ import { storage } from "@/utils/localStorage"
 import axios, { AxiosError } from "axios"
 
 type ApiErrorResponse = {
+  error?: {
+    code: string
+    message: string
+    timestamp: string
+    path: string
+  }
   errors?: string[] | string
 }
 
@@ -46,7 +52,7 @@ api.interceptors.response.use(
     }
 
     const apiError = {
-      message: error.response?.data.errors || ["Request error."],
+      message: error.response?.data.error?.message || "Request error.",
       statusCode: error.response?.status,
     }
 

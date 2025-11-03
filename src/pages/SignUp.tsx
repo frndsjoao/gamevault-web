@@ -27,7 +27,7 @@ export default function SignUp() {
     defaultValues: {
       email: "",
       password: "",
-      birthdate: undefined,
+      birthdate: "",
       name: "",
       preferredPlatform: "",
       confirmPassword: "",
@@ -37,9 +37,7 @@ export default function SignUp() {
   const { mutate: signUp, isPending, error, isSuccess } = useSignUpQuery()
 
   const onSubmit = async (data: SignUpData) => {
-    const formatDate = (date?: Date) => date?.toISOString().split("T")[0] ?? ""
-
-    signUp({ ...data, birthdate: formatDate(data.birthdate) })
+    signUp(data)
   }
 
   const onError = (err: any) => {
@@ -47,7 +45,7 @@ export default function SignUp() {
   }
 
   const signIn = () => {
-    navigate("/signin")
+    navigate("/signin", { replace: true })
   }
 
   useEffect(() => {

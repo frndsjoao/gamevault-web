@@ -18,7 +18,7 @@ export const useSignInQuery = () => {
       storage.setToken(accessToken)
       setUser({ ...rest })
 
-      navigate("/dashboard")
+      navigate("/dashboard", { replace: true })
     },
     onError: (error: IApiError) => {
       showErrorToast(error.message)
@@ -33,7 +33,7 @@ export const useSignUpQuery = () => {
     mutationFn: authService.signup,
     onSuccess: () => {
       toast("Account created! Now you can login.", { type: "success" })
-      navigate("/signin")
+      navigate("/signin", { replace: true })
     },
     onError: (error: IApiError) => {
       showErrorToast(error.message)

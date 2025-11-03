@@ -1,4 +1,4 @@
 export interface IApiError {
-  statusCode: number;
-  message: string[];
+  statusCode?: number;
+  message: string;
 }

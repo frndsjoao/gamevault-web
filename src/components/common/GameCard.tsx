@@ -32,8 +32,10 @@ export default function GameCard({ game, activeColumn }: GameCardProps) {
 
   async function changeGameStatus(status: GameStatusType) {
     if (status === "Finished") {
-      confettiRef.current?.fire()
       setIsReviewModalOpen(true)
+      setTimeout(() => {
+        confettiRef.current?.fire()
+      }, 300)
       return
     }
 

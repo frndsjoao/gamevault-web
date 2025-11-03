@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
@@ -7,12 +7,13 @@ import {
 } from "@/components/ui/popover"
 import Icon, { IconName } from "./Icon"
 import { format } from "date-fns"
+import { dateToString, stringToDate } from "@/utils/dateHandler"
 
 interface DatePickerProps {
   label?: string
   placeholder?: string
-  value?: Date
-  onChange?: (date: Date | undefined) => void
+  value?: string | null
+  onChange?: (date: string | null) => void
   disabled?: boolean
   className?: string
   icon?: IconName
@@ -27,11 +28,15 @@ export default function DatePicker({
   className = "",
   icon,
 }: DatePickerProps) {
-  const [date, setDate] = useState<Date | undefined>(value)
+  const [date, setDate] = useState<Date | undefined>(stringToDate(value))
+
+  useEffect(() => {
+    setDate(stringToDate(value))
+  }, [value])
 
   const handleSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate)
-    onChange?.(selectedDate)
+    onChange?.(dateToString(selectedDate))
   }
 
   return (
@@ -57,7 +62,7 @@ export default function DatePicker({
               <span
                 className={`${!date ? "text-text-medium" : "text-text-light"} text-md`}
               >
-                {date ? format(date, "PPP") : placeholder}
+                {date ? format(date, "dd/MM/yyyy") : placeholder}
               </span>
             </div>
             <Icon name="chevron-down" className="text-text-light" size={16} />
