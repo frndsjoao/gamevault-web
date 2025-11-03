@@ -24,7 +24,7 @@ export default function Dashboard() {
 
       <MainContent setSidebarOpen={setSidebarOpen}>
         {isLoading ? (
-          <div className="flex h-screen w-full items-center justify-center pb-10">
+          <div className="flex h-full w-full items-center justify-center">
             <LuLoaderCircle size={32} className="animate-spin text-white" />
           </div>
         ) : hasGames ? (

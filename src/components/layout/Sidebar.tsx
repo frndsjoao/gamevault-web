@@ -12,6 +12,7 @@ import { useAppNavigate } from "@/hooks/useNavigation"
 import { toast } from "react-toastify"
 import { storage } from "@/utils/localStorage"
 import { useNavItems, NavOptionsProps } from "@/hooks/useNavItems"
+import { APP_VERSION } from "@/constants/app"
 
 interface SidebarProps {
   sidebarOpen?: boolean
@@ -146,8 +147,11 @@ function SidebarUser() {
             sideOffset={4}
             className="w-56"
           >
-            <DropdownMenuLabel className="text-base font-semibold">
-              Settings
+            <DropdownMenuLabel className="flex flex-row items-center justify-between">
+              <p className="text-base font-semibold">Settings</p>
+              <p className="text-xs font-normal text-gray-400">
+                v{APP_VERSION}
+              </p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem

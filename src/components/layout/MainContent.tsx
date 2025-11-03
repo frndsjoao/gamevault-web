@@ -32,7 +32,7 @@ export default function MainContent({
   const handleSearchClose = useCallback(() => setIsSearchModalOpen(false), [])
 
   return (
-    <div className="flex h-screen flex-1 flex-col overflow-x-hidden bg-bg-dark p-2 md:p-3 lg:ml-72 lg:p-4">
+    <div className="fixed inset-0 flex flex-1 flex-col overflow-x-hidden bg-bg-dark p-2 md:p-3 lg:static lg:ml-72 lg:h-screen lg:p-4">
       <div className="flex flex-1 flex-col overflow-hidden rounded-lg bg-bg-darkest md:rounded-xl">
         <MainContentHeader
           setSidebarOpen={setSidebarOpen}
