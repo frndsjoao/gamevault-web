@@ -8,9 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { useUser } from "@/store/user"
-import { useAppNavigate } from "@/hooks/useNavigation"
 import { toast } from "react-toastify"
-import { storage } from "@/utils/localStorage"
+import { handleLogout } from "@/utils/auth"
 import { useNavItems, NavOptionsProps } from "@/hooks/useNavItems"
 import { APP_VERSION } from "@/constants/app"
 
@@ -31,7 +30,7 @@ export default function Sidebar({
     >
       <SidebarHeader setSidebarOpen={setSidebarOpen} />
 
-      <nav className="flex-1 space-y-2 overflow-y-auto">
+      <nav className="flex-1 space-y-2 overflow-y-auto pb-2">
         {navItems.map((item, idx) => (
           <div key={idx} className={item.group && "pt-4 space-y-1"}>
             <span className="text-sm font-semibold text-text-medium">
@@ -45,7 +44,9 @@ export default function Sidebar({
         ))}
       </nav>
 
-      <SidebarUser />
+      <div className="flex-shrink-0">
+        <SidebarUser />
+      </div>
     </aside>
   )
 }
@@ -97,14 +98,11 @@ function SidebarButton({ item }: { item: NavOptionsProps }) {
 }
 
 function SidebarUser() {
-  const navigate = useAppNavigate()
-  const { clearUser, user } = useUser((state) => state)
+  const { user } = useUser((state) => state)
 
-  const handleLogout = () => {
+  const onLogout = () => {
     toast("You're now logged out. See you later", { type: "default" })
-    storage.removeToken()
-    clearUser()
-    navigate("/signin")
+    handleLogout()
   }
 
   return (
@@ -155,7 +153,7 @@ function SidebarUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem
-              onClick={handleLogout}
+              onClick={onLogout}
               className="rounded-lg hover:cursor-pointer hover:bg-gray-700"
             >
               <Icon name="logout" className="text-text-medium" />

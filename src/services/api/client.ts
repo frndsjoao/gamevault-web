@@ -1,4 +1,5 @@
 import { storage } from "@/utils/localStorage"
+import { handleLogout } from "@/utils/auth"
 import axios, { AxiosError } from "axios"
 
 type ApiErrorResponse = {
@@ -46,9 +47,10 @@ api.interceptors.response.use(
       error.config?.url?.includes(route),
     )
 
+    // Se for erro 401 (não autorizado) em rota privada, faz logout completo
     if (error.response?.status === 401 && !isPublicRoute) {
-      storage.removeToken()
-      window.location.href = "/signin"
+      handleLogout()
+      return Promise.reject({ message: "Session expired", statusCode: 401 })
     }
 
     const apiError = {

@@ -14,9 +14,7 @@ export const gameFormSchema = z
     rating: z
       .number()
       .min(0, "Rating cannot be negative")
-      .max(5, "Rating cannot exceed 5")
-      .transform((val) => Math.round(val)),
-
+      .max(5, "Rating cannot exceed 5"),
     platinum: z.boolean().default(false),
 
     status: z.enum(gameStatus, {
