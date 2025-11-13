@@ -10,6 +10,12 @@ import Select from "@/components/common/Select"
 
 type SortOption = "alphabetical" | "rating" | "modified"
 
+const sort = [
+  { id: "alphabetical", label: "Alphabetical" },
+  { id: "rating", label: "Rating" },
+  { id: "modified", label: "Modified" },
+]
+
 export default function Gamelist() {
   const location = useLocation()
   const filter = location.state.filter
@@ -30,10 +36,10 @@ export default function Gamelist() {
 
           <div className="flex items-center gap-2">
             <Select
-              setValue={setFilterPlatform}
-              value={filterPlatform}
-              placeholder="Platform"
-              items={platforms}
+              setValue={(value) => setSortBy(value as SortOption)}
+              value={sortBy}
+              placeholder="Sort by"
+              items={sort}
               className="w-32"
             />
           </div>
